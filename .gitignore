@@ -1,0 +1,27 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# React build
+build/
+
+# Java / Spring Boot
+target/
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env (secrets – never commit)
+.env
+.env.local
+.env.*.local
+Backend/.env

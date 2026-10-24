@@ -1,0 +1,76 @@
+.recent .text {
+  padding: 30px;
+}
+.recent .category span {
+  padding: 4px 15px;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: 13px;
+  display: inline-block;
+}
+.recent .category i {
+  font-size: 20px;
+  color: #bec7d8;
+}
+.recent p {
+  color: #72809d;
+}
+.recent .button {
+  border-top: 1px solid #e4e8f3;
+  padding: 10px 30px;
+}
+
+/* group header shown above each 3-card row */
+.group-header {
+  padding: 20px 0 10px;
+}
+.group-card {
+  background: #fff;
+  padding: 10px 18px 10px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px; /* keep header and cards separated */
+}
+.group-title {
+  margin: 0;
+  font-size: 24px; /* increased font size */
+  color: #2d3954;
+  font-weight: 700;
+  text-align: left;
+}
+.group-sub {
+  margin: 0;
+  color: #72809d;
+  font-size: 14px;
+}
+
+/* editable title input for hotel groups */
+.group-title-input {
+  font-size: 24px;
+  color: #2d3954;
+  font-weight: 700;
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+}
+.group-title-input::placeholder {
+  color: #9aa3b6;
+}
+
+/* when content (cards) immediately follows a group header, remove extra top margin
+   so header and cards don't visually overlap while keeping a small gap from margin-bottom */
+.group-header + .content {
+  margin-top: 0;
+}
+
+@media screen and (max-width: 800px) {
+  .group-title {
+    font-size: 18px;
+  }
+  .group-title-input {
+    font-size: 18px;
+  }
+}

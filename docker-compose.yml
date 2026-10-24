@@ -1,0 +1,106 @@
+services:
+
+  mysql:
+    image: mysql:8
+    container_name: tourism-mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+
+  auth-service:
+    build: ./Backend/auth-service
+
+    ports:
+      - "8081:8081"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:mysql://mysql:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
+      DB_USER: root
+      DB_PASSWORD: root
+      JWT_SECRET: mysecretkey
+
+    depends_on:
+      - mysql
+
+  booking-service:
+    build: ./Backend/booking-service
+
+    ports:
+      - "8082:8082"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:mysql://mysql:3306/bookings_db?useSSL=false&allowPublicKeyRetrieval=true
+      DB_USER: root
+      DB_PASSWORD: root
+
+    depends_on:
+      - mysql
+
+  destination-service:
+    build: ./Backend/destination-service
+
+    ports:
+      - "8083:8083"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:mysql://mysql:3306/destinations_db?useSSL=false&allowPublicKeyRetrieval=true
+      DB_USER: root
+      DB_PASSWORD: root
+
+    depends_on:
+      - mysql
+
+  packages-service:
+    build: ./Backend/packages-service
+
+    ports:
+      - "8084:8084"
+
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:mysql://mysql:3306/packages_db?useSSL=false&allowPublicKeyRetrieval=true
+      DB_USER: root
+      DB_PASSWORD: root
+
+    depends_on:
+      - mysql
+
+  api-gateway:
+    build: ./Backend/api-gateway
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      AUTH_SERVICE_URL: http://auth-service:8081
+      BOOKING_SERVICE_URL: http://booking-service:8082
+      DESTINATION_SERVICE_URL: http://destination-service:8083
+      PACKAGES_SERVICE_URL: http://packages-service:8084
+
+    depends_on:
+      - auth-service
+      - booking-service
+      - destination-service
+      - packages-service
+
+  frontend:
+    build: ./Frontend
+
+    ports:
+      - "3000:80"
+
+    depends_on:
+      - api-gateway
+
+volumes:
+  mysql_data:

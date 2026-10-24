@@ -1,0 +1,23 @@
+.hero {
+  background-image: url("../../../../public/images/hero/main.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 90vh;
+  width: 100%;
+}
+.hero .container {
+    padding-top: 15%;
+    padding-bottom: 15%;
+}
+.hero h1 {
+  color: #fff;
+  font-size: 55px;
+  padding-top: 10%;
+}
+
+.hero p {
+  color: #fff;
+  opacity: 0.8;
+}
+

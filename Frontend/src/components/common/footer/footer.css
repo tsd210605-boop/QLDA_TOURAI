@@ -1,0 +1,78 @@
+.footerContact {
+  background-color: #53eaef;
+  padding: 40px 0;
+  color: #fff;
+}
+.footerContact h1 {
+  font-size: 40px;
+}
+footer {
+  background-color: #30468e;
+  padding: 50px 0;
+  color: #fff;
+}
+footer .container {
+  display: grid;
+  grid-template-columns: 6fr 2fr 2fr 1fr;
+  grid-gap: 20px;
+}
+footer img {
+  width: 150px;
+}
+footer h2 {
+  font-weight: 500;
+}
+footer p {
+  color: rgb(100, 215, 247);
+  margin: 20px 0;
+}
+/* newsletter input + button container */
+footer .input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+footer .input input {
+  background-color: #ffffff;
+  padding: 14px 16px;
+  border-radius: 5px;
+  flex: 1 1 auto;
+  width: auto; /* override full-width default */
+  border: none;
+}
+
+footer .input button {
+  padding: 12px 18px;
+  border-radius: 5px;
+  background: #000;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+footer h3 {
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+footer ul {
+  display: block;
+}
+footer ul li {
+  display: block;
+  color: rgb(173, 189, 175);
+  margin-bottom: 20px;
+}
+.legal {
+  text-align: center;
+  padding: 20px;
+  background: #091935;
+  color: rgba(255, 255, 255, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+@media screen and (max-width: 800px) {
+  footer .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

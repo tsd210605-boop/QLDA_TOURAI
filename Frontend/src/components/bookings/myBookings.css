@@ -1,0 +1,85 @@
+.my-bookings-page {
+    max-width: 1200px;
+    padding: 20px; /* top padding for fixed header */
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+    .my-bookings-page h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+.bookings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.booking-card {
+    background-color: #f0f8ff;
+    border-radius: 10px;
+    padding: 20px 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .booking-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .booking-card p {
+        margin: 6px 0;
+        font-size: 16px;
+        color: #555;
+    }
+
+.booking-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.booking-card button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+    .booking-card button.danger {
+        background-color: #d9534f;
+        color: #fff;
+    }
+
+        .booking-card button.danger:hover {
+            background-color: #c9302c;
+        }
+
+    .booking-card button.edit {
+        background-color: #0275d8;
+        color: #fff;
+    }
+
+        .booking-card button.edit:hover {
+            background-color: #025aa5;
+        }
+
+@media (max-width: 600px) {
+    .booking-card {
+        padding: 15px;
+    }
+
+        .booking-card p {
+            font-size: 14px;
+        }
+
+        .booking-card button {
+            font-size: 13px;
+            padding: 8px 12px;
+        }
+}

@@ -1,0 +1,135 @@
+/* HEADER BASE */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Flex layout all left-aligned */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+    gap: 30px; 
+}
+
+/* LOGO */
+.logo img {
+    width: 150px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* NAVIGATION */
+.nav-links ul {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .nav-links ul li a {
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 500;
+        color: #222;
+        transition: 0.3s ease;
+    }
+
+        .nav-links ul li a:hover {
+            color: #0077cc;
+        }
+
+/* SIGN-IN BUTTON */
+.header-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.signin-btn-link {
+    padding: 8px 20px;
+    border-radius: 6px;
+    background: #0077cc;
+    color: #fff;
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.signin-btn-link:hover {
+    background: #005fa3;
+    color: #fff;
+}
+
+.signin-btn {
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: none;
+    background: #0077cc;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+    .signin-btn:hover {
+        background: #005fa3;
+    }
+
+/* MOBILE MENU TOGGLE */
+.mobile-toggle {
+    display: none;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* Mobile dropdown menu */
+.mobile-nav {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 20px 0;
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.1);
+}
+
+    .mobile-nav ul {
+        flex-direction: column;
+        gap: 15px;
+        text-align: left;
+        padding-left: 20px;
+    }
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .header-container {
+        gap: 20px;
+    }
+
+    .nav-links ul {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* hide nav + button on mobile */
+    .nav-links {
+        display: none;
+    }
+
+    .header-btn {
+        display: none;
+    }
+
+    /* show hamburger menu */
+    .mobile-toggle {
+        display: block;
+    }
+}

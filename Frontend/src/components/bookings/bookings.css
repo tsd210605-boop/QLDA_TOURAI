@@ -1,0 +1,48 @@
+/* Common bookings page layout */
+.bookings-page {
+    display: flex;
+    padding-top: 90px;
+    max-width: 1200px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar menu */
+.bookings-menu {
+    width: 220px;
+    background-color: #f0f8ff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+    .bookings-menu h3 {
+        margin-bottom: 15px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .bookings-menu ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .bookings-menu li {
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        transition: 0.3s;
+    }
+
+        .bookings-menu li.active,
+        .bookings-menu li:hover {
+            background: #1a73e8;
+            color: white;
+        }
+
+/* Main content */
+.bookings-content {
+    flex: 1;
+    padding: 20px;
+}
+
