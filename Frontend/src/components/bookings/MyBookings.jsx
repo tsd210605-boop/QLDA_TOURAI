@@ -29,6 +29,7 @@ const MyBookings = () => {
 
   useEffect(() => {
     loadBookings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
 
   const handlePhoneSearch = async () => {

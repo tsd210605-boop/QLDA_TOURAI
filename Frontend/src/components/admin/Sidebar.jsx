@@ -1,17 +1,20 @@
 import React from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { clearSession, getUserRole, getUserName, hasPermission } from "../../utils/auth";
 import "./admin.css";
 
 const Sidebar = () => {
-  const history = useHistory();
   const location = useLocation();
   const role = getUserRole();
   const userName = getUserName();
 
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     clearSession();
-    history.push("/admin/login");
+    window.location.href = "/admin/login";
   };
 
   const getRoleBadgeClass = (r) => {

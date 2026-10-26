@@ -15,16 +15,38 @@ const categories = [
 ];
 
 const PackagesList = () => {
+    const [allPackages, setAllPackages] = useState([]);
     const [packages, setPackages] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("");
     const [offers, setOffers] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // Initial load: fetch all packages to compute category counts
+    useEffect(() => {
+        getAllPackages()
+            .then((data) => {
+                const list = Array.isArray(data) ? data : [];
+                setAllPackages(list);
+                if (!selectedCategory) {
+                    setPackages(list);
+                }
+            })
+            .catch(() => {
+                setAllPackages([]);
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // Filter by selected category
     useEffect(() => {
         setLoading(true);
         if (!selectedCategory) {
             getAllPackages()
-                .then((data) => setPackages(Array.isArray(data) ? data : []))
+                .then((data) => {
+                    const list = Array.isArray(data) ? data : [];
+                    setPackages(list);
+                    setAllPackages(list);
+                })
                 .catch(() => setPackages([]))
                 .finally(() => setLoading(false));
         } else {
@@ -41,6 +63,10 @@ const PackagesList = () => {
             .catch(() => setOffers([]));
     }, []);
 
+    const getCategoryCount = (cat) => {
+        return allPackages.filter((p) => p.category === cat).length;
+    };
+
     return (
         <div className="packages-page">
             <OffersCarousel offers={offers} />
@@ -53,17 +79,20 @@ const PackagesList = () => {
                             className={!selectedCategory ? "active" : ""}
                             onClick={() => setSelectedCategory("")}
                         >
-                            All ({packages.length > 0 && !selectedCategory ? packages.length : "Tất cả"})
+                            All ({allPackages.length > 0 ? allPackages.length : "Tất cả"})
                         </li>
-                        {categories.map((cat) => (
-                            <li
-                                key={cat}
-                                className={selectedCategory === cat ? "active" : ""}
-                                onClick={() => setSelectedCategory(cat)}
-                            >
-                                {cat}
-                            </li>
-                        ))}
+                        {categories.map((cat) => {
+                            const count = getCategoryCount(cat);
+                            return (
+                                <li
+                                    key={cat}
+                                    className={selectedCategory === cat ? "active" : ""}
+                                    onClick={() => setSelectedCategory(cat)}
+                                >
+                                    {cat} {count > 0 && <span style={{ opacity: 0.8, fontSize: "12px", float: "right" }}>({count})</span>}
+                                </li>
+                            );
+                        })}
                     </ul>
                 </aside>
 

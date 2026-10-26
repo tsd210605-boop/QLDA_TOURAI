@@ -14,6 +14,11 @@ export const saveSession = ({ token, userId, name, email, role, permissions }) =
   if (permissions && Array.isArray(permissions)) {
     localStorage.setItem(USER_PERMISSIONS_KEY, JSON.stringify(permissions));
   }
+  try {
+    window.dispatchEvent(new Event("auth-changed"));
+  } catch (e) {
+    // Ignore in non-browser env
+  }
 };
 
 export const clearSession = () => {
@@ -23,6 +28,11 @@ export const clearSession = () => {
   localStorage.removeItem(USER_EMAIL_KEY);
   localStorage.removeItem(USER_ROLE_KEY);
   localStorage.removeItem(USER_PERMISSIONS_KEY);
+  try {
+    window.dispatchEvent(new Event("auth-changed"));
+  } catch (e) {
+    // Ignore in non-browser env
+  }
 };
 
 export const getToken = () => localStorage.getItem(TOKEN_KEY);

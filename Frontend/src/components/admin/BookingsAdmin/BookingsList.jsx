@@ -30,6 +30,7 @@ const BookingsList = () => {
     }
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleEdit = (id) => {
     history.push(`/admin/bookings/edit/${id}`);
   };
