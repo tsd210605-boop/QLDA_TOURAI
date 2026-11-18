@@ -1,3 +1,6 @@
+// Hiển thị catalog tour công khai, bộ lọc chuyên mục và băng chuyền ưu đãi.
+
+import { categoryLabel } from "../../utils/locale";
 import React, { useEffect, useState } from "react";
 import PackageCard from "./PackageCard";
 import OffersCarousel from "./OffersCarousel";
@@ -14,6 +17,7 @@ const categories = [
     "Food & Culinary"
 ];
 
+/** Quản lý nhóm đang chọn, danh sách tour dùng để hiển thị và danh sách đầy đủ dùng để đếm. */
 const PackagesList = () => {
     const [allPackages, setAllPackages] = useState([]);
     const [packages, setPackages] = useState([]);
@@ -22,6 +26,7 @@ const PackagesList = () => {
     const [loading, setLoading] = useState(true);
 
     // Initial load: fetch all packages to compute category counts
+    // Nạp toàn bộ catalog lúc mở trang để có dữ liệu đếm số tour ở mỗi chuyên mục.
     useEffect(() => {
         getAllPackages()
             .then((data) => {
@@ -38,6 +43,7 @@ const PackagesList = () => {
     }, []);
 
     // Filter by selected category
+    // Tải tour theo chuyên mục vừa chọn hoặc tải toàn bộ khi chọn xem tất cả.
     useEffect(() => {
         setLoading(true);
         if (!selectedCategory) {
@@ -57,12 +63,14 @@ const PackagesList = () => {
         }
     }, [selectedCategory]);
 
+    // Nạp danh sách ưu đãi để truyền cho băng chuyền trên trang catalog.
     useEffect(() => {
         getOffers()
             .then((data) => setOffers(Array.isArray(data) ? data : []))
             .catch(() => setOffers([]));
     }, []);
 
+    /** Đếm số tour trong catalog đầy đủ có category bằng mã nhóm được truyền vào. */
     const getCategoryCount = (cat) => {
         return allPackages.filter((p) => p.category === cat).length;
     };
@@ -73,13 +81,13 @@ const PackagesList = () => {
 
             <div className="packages-wrapper">
                 <aside className="categories-menu">
-                    <h3>Categories</h3>
+                    <h3>Danh mục</h3>
                     <ul>
                         <li
                             className={!selectedCategory ? "active" : ""}
                             onClick={() => setSelectedCategory("")}
                         >
-                            All ({allPackages.length > 0 ? allPackages.length : "Tất cả"})
+                            Tất cả ({allPackages.length > 0 ? allPackages.length : "Tất cả"})
                         </li>
                         {categories.map((cat) => {
                             const count = getCategoryCount(cat);
@@ -89,7 +97,7 @@ const PackagesList = () => {
                                     className={selectedCategory === cat ? "active" : ""}
                                     onClick={() => setSelectedCategory(cat)}
                                 >
-                                    {cat} {count > 0 && <span style={{ opacity: 0.8, fontSize: "12px", float: "right" }}>({count})</span>}
+                                    {categoryLabel(cat)} {count > 0 && <span style={{ opacity: 0.8, fontSize: "12px", float: "right" }}>({count})</span>}
                                 </li>
                             );
                         })}
@@ -98,7 +106,7 @@ const PackagesList = () => {
 
                 <div className="packages-container">
                     <h1 className="packages-title">
-                        {selectedCategory || "All"} Packages
+                        {selectedCategory ? categoryLabel(selectedCategory) : "Tất cả tour du lịch"}
                     </h1>
 
                     {loading ? (
@@ -108,7 +116,7 @@ const PackagesList = () => {
                     ) : packages.length === 0 ? (
                         <div style={{ padding: "40px", background: "#f8fafc", borderRadius: "12px", border: "1px dashed #cbd5e0" }}>
                             <p style={{ fontSize: "16px", color: "#64748b", marginBottom: "15px" }}>
-                                Chưa có tour du lịch nào trong danh mục <strong>"{selectedCategory}"</strong>.
+                                Chưa có tour du lịch nào trong danh mục <strong>"{categoryLabel(selectedCategory)}"</strong>.
                             </p>
                             <button
                                 type="button"

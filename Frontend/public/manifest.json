@@ -1,0 +1,15 @@
+{
+  "short_name": "Tourism",
+  "name": "Tourism - Du lịch Việt Nam",
+  "icons": [
+    {
+      "src": "/tourism-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#0077cc",
+  "background_color": "#ffffff"
+}

@@ -1,3 +1,6 @@
+// Hiển thị chi tiết, lịch trình, giá và các tour cùng chuyên mục dựa trên mã tour của URL.
+
+import { categoryLabel, formatDuration, formatPrice } from "../../utils/locale";
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import PackageCard from "./PackageCard";
@@ -9,21 +12,23 @@ import {
 } from "../../api/packagesApi";
 import "./packageDetails.css";
 
+/** Dựng trang chi tiết từ dữ liệu tour, các ngày lịch trình, ưu đãi nếu có và tour liên quan. */
 const PackageDetails = () => {
     const { id } = useParams();
     const history = useHistory();
 
-    const [pkg, setPackage] = useState(null);
+    const [pkg, setPkg] = useState(null);
     const [itinerary, setItinerary] = useState([]);
     const [relatedPackages, setRelatedPackages] = useState([]);
     const [offer, setOffer] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // Tải chi tiết, lịch trình và ưu đãi theo ID. Khi biết chuyên mục của tour, tải thêm danh sách tour liên quan.
     useEffect(() => {
         setLoading(true);
         getPackageById(id)
             .then((data) => {
-                setPackage(data);
+                setPkg(data);
                 if (data?.category) {
                     getRelatedPackages(data.category, id)
                         .then((res) => setRelatedPackages(Array.isArray(res) ? res : []))
@@ -97,7 +102,7 @@ const PackageDetails = () => {
                             <img src={pkg.imageUrl} alt={pkg.title} className="details-img" />
                             {pkg.category && (
                                 <span className="category-tag">
-                                    <i className="fa-solid fa-compass"></i> {pkg.category}
+                                    <i className="fa-solid fa-compass"></i> {categoryLabel(pkg.category)}
                                 </span>
                             )}
                             {discount > 0 && (
@@ -153,7 +158,7 @@ const PackageDetails = () => {
                                 </div>
                                 <div className="spec-info">
                                     <span className="spec-label">Thời lượng</span>
-                                    <span className="spec-value">{pkg.duration || "N/A"}</span>
+                                    <span className="spec-value">{formatDuration(pkg.duration || "Chưa cập nhật")}</span>
                                 </div>
                             </div>
 
@@ -201,20 +206,20 @@ const PackageDetails = () => {
                                     <span className="label">Giá trọn gói mỗi khách:</span>
                                     {discount > 0 && (
                                         <span className="save-chip">
-                                            Tiết kiệm ${savingsAmount}
+                                            Tiết kiệm {formatPrice(savingsAmount)}
                                         </span>
                                     )}
                                 </div>
                                 <div className="price-value-col">
                                     {discount > 0 ? (
                                         <div className="discounted-price-group">
-                                            <span className="strike-price">${originalPrice.toFixed(2)}</span>
-                                            <span className="main-price">${finalPrice}</span>
+                                            <span className="strike-price">{formatPrice(originalPrice.toFixed(2))}</span>
+                                            <span className="main-price">{formatPrice(finalPrice)}</span>
                                             <span className="unit">/ người</span>
                                         </div>
                                     ) : (
                                         <div className="regular-price-group">
-                                            <span className="main-price">${originalPrice.toFixed(2)}</span>
+                                            <span className="main-price">{formatPrice(originalPrice.toFixed(2))}</span>
                                             <span className="unit">/ người</span>
                                         </div>
                                     )}
@@ -226,7 +231,7 @@ const PackageDetails = () => {
                                     to={`/bookings/package/${pkg.packageId}`}
                                     className="book-btn-primary"
                                 >
-                                    <i className="fa-solid fa-calendar-check"></i> Đặt tour ngay (Book Now)
+                                    <i className="fa-solid fa-calendar-check"></i> Đặt tour ngay
                                 </Link>
                             </div>
 
@@ -239,7 +244,7 @@ const PackageDetails = () => {
                 </div>
 
                 {/* Day-by-Day Itinerary Section */}
-                {itinerary.length > 0 && (
+                {((itinerary && itinerary.length > 0) || (pkg.itinerary && pkg.itinerary.length > 0)) && (
                     <div className="details-section itinerary-section">
                         <div className="section-header">
                             <span className="section-subtitle">Chương trình chi tiết</span>
@@ -248,7 +253,7 @@ const PackageDetails = () => {
                             </h2>
                         </div>
                         <div className="itinerary-timeline">
-                            {itinerary.map((day, idx) => (
+                            {((itinerary && itinerary.length > 0) ? itinerary : pkg.itinerary).map((day, idx) => (
                                 <div key={day.itineraryId || idx} className="timeline-node">
                                     <div className="timeline-badge">
                                         <span>Ngày</span>
@@ -301,7 +306,7 @@ const PackageDetails = () => {
                         <div className="section-header">
                             <span className="section-subtitle">Gợi ý khám phá</span>
                             <h2 className="section-title">
-                                <i className="fa-solid fa-compass"></i> Các tour khác cùng danh mục "{pkg.category}"
+                                <i className="fa-solid fa-compass"></i> Các tour khác cùng danh mục "{categoryLabel(pkg.category)}"
                             </h2>
                         </div>
                         <div className="related-packages-grid">

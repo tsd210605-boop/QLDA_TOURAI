@@ -8,12 +8,12 @@ const Team = () => {
     <>
       <section className='team background'>
         <div className='container'>
-          <Heading title='Our Featured Agents' subtitle='Connect with our experienced travel agents for personalized guidance and smooth trip planning. Our team has years of expertise in organizing tours across Sri Lanka, ensuring safe, reliable, and memorable travel experiences. Reach out anytime for support, package details, or custom tour arrangements.' />
+          <Heading title="Đội ngũ tư vấn du lịch" subtitle="Đội ngũ tư vấn giàu kinh nghiệm luôn sẵn sàng hỗ trợ bạn lên kế hoạch và lựa chọn hành trình phù hợp. Với kinh nghiệm tổ chức tour tại Việt Nam, chúng tôi mang đến những trải nghiệm an toàn và đáng nhớ. Hãy liên hệ để được tư vấn chi tiết hoặc thiết kế chuyến đi theo yêu cầu." />
 
           <div className='content mtop grid3'>
             {team.map((val, index) => (
               <div className='box' key={index}>
-                <button className='btn3'>{val.list} Listings</button>
+                <button className='btn3'>{val.list} hành trình</button>
                 <div className='details'>
                   <div className='img'>
                     <img src={val.cover} alt='' />
@@ -31,7 +31,7 @@ const Team = () => {
                   <div className='button flex'>
                     <button>
                       <i className='fa fa-envelope'></i>
-                      Message
+                      Nhắn tin
                     </button>
                     <button className='btn4'>
                       <i className='fa fa-phone-alt'></i>

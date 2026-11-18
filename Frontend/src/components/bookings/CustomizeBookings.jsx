@@ -22,7 +22,7 @@ const CustomizeBookings = () => {
       Number(form.days) <= 0 ||
       Number(form.people) <= 0
     ) {
-      alert("Please fill all fields correctly");
+      alert("Vui lòng nhập đầy đủ và chính xác thông tin.");
       return;
     }
 
@@ -33,17 +33,17 @@ const CustomizeBookings = () => {
       ...form,
       days: Number(form.days),
       people: Number(form.people),
-    }).then(() => alert("Custom booking submitted!"));
+    }).then(() => alert("Đã gửi yêu cầu đặt tour!"));
   };
 
   return (
     <div className="customize-booking-form">
       <div className="form-header">
-        <h2>Customize Your Trip</h2>
+        <h2>Thiết kế chuyến đi của bạn</h2>
       </div>
 
       <label>
-        Full Name:
+        Họ và tên:
         <input
           type="text"
           value={form.name}
@@ -52,7 +52,7 @@ const CustomizeBookings = () => {
       </label>
 
       <label>
-        Phone Number:
+        Số điện thoại:
         <input
           type="text"
           value={form.phone}
@@ -61,7 +61,7 @@ const CustomizeBookings = () => {
       </label>
 
       <label>
-        Destinations:
+        Điểm đến:
         <input
           type="text"
           value={form.destination}
@@ -70,7 +70,7 @@ const CustomizeBookings = () => {
       </label>
 
       <label>
-        Days:
+        Số ngày:
         <input
           type="number"
           value={form.days}
@@ -79,7 +79,7 @@ const CustomizeBookings = () => {
       </label>
 
       <label>
-        Travel Date:
+        Ngày khởi hành:
         <input
           type="date"
           value={form.travelDate}
@@ -88,7 +88,7 @@ const CustomizeBookings = () => {
       </label>
 
       <label>
-        People:
+        Số khách:
         <input
           type="number"
           value={form.people}
@@ -96,7 +96,7 @@ const CustomizeBookings = () => {
         />
       </label>
 
-      <button onClick={submitBooking}>Submit Custom Booking</button>
+      <button onClick={submitBooking}>Gửi yêu cầu đặt tour</button>
     </div>
   );
 };

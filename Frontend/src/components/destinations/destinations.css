@@ -1,6 +1,6 @@
-﻿.destinations-page {
+.destinations-page {
     padding: 90px 20px 20px; /* Push content below fixed header */
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
     text-align: center;
 }
 

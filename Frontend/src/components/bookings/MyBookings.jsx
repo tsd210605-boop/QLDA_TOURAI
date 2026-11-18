@@ -1,3 +1,4 @@
+import { bookingTypeLabel, formatDate, formatPrice } from "../../utils/locale";
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { getBookingsByUserId, getBookingsByPhone, deleteBooking } from "../../api/bookingsApi";
@@ -39,66 +40,66 @@ const MyBookings = () => {
       const data = await getBookingsByPhone(phoneLookup.trim());
       setBookings(data);
     } catch {
-      alert("Could not find bookings for that phone number.");
+      alert("Không tìm thấy đơn đặt tour với số điện thoại này.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = (id) => {
-    if (!window.confirm("Cancel this booking?")) return;
+    if (!window.confirm("Bạn có muốn hủy đơn đặt tour này?")) return;
     deleteBooking(id)
       .then(() => {
         setBookings(bookings.filter((b) => b.bookingId !== id));
-        alert("Booking cancelled successfully.");
+        alert("Đã hủy đơn đặt tour.");
       })
-      .catch(() => alert("Failed to cancel booking. Please try again."));
+      .catch(() => alert("Không thể hủy đơn đặt tour. Vui lòng thử lại."));
   };
 
   const handleEdit = (id) => {
     history.push(`/edit-booking/${id}`);
   };
 
-  if (loading) return <p>Loading your bookings...</p>;
+  if (loading) return <p>Đang tải đơn đặt tour của bạn...</p>;
 
   return (
     <div className="my-bookings-page">
-      <h2>My Bookings</h2>
+      <h2>Đơn đặt tour của tôi</h2>
 
       {!isLoggedIn() && (
         <div className="my-bookings-guest">
           <p>
-            <Link to="/login">Sign in</Link> to see bookings linked to your account, or search by phone:
+            <Link to="/login">Đăng nhập</Link> để xem đơn đặt tour của bạn, hoặc tìm bằng số điện thoại:
           </p>
           <input
             type="text"
-            placeholder="Phone number used when booking"
+            placeholder="Số điện thoại đã dùng để đặt tour"
             value={phoneLookup}
             onChange={(e) => setPhoneLookup(e.target.value)}
           />
           <button type="button" onClick={handlePhoneSearch}>
-            Find bookings
+            Tìm đơn đặt tour
           </button>
         </div>
       )}
 
       {bookings.length === 0 ? (
-        <p>No bookings found.</p>
+        <p>Chưa có đơn đặt tour.</p>
       ) : (
         <div className="bookings-grid">
           {bookings.map((b) => (
             <div key={b.bookingId} className="booking-card">
-              <p><b>Name:</b> {b.name}</p>
-              <p><b>Phone:</b> {b.phone}</p>
-              <p><b>Type:</b> {b.bookingType}</p>
-              {b.packageTitle && <p><b>Package:</b> {b.packageTitle}</p>}
-              <p><b>Destination:</b> {b.destination}</p>
-              <p><b>Days:</b> {b.days}</p>
-              <p><b>Travel Date:</b> {b.travelDate}</p>
-              <p><b>Total Price:</b> ${b.totalPrice}</p>
+              <p><b>Họ tên:</b> {b.name}</p>
+              <p><b>Số điện thoại:</b> {b.phone}</p>
+              <p><b>Loại đặt tour:</b> {bookingTypeLabel(b.bookingType)}</p>
+              {b.packageTitle && <p><b>Tour:</b> {b.packageTitle}</p>}
+              <p><b>Điểm đến:</b> {b.destination}</p>
+              <p><b>Số ngày:</b> {b.days}</p>
+              <p><b>Ngày khởi hành:</b> {formatDate(b.travelDate)}</p>
+              <p><b>Tổng tiền:</b> {formatPrice(b.totalPrice)}</p>
               <div className="booking-buttons">
-                <button className="edit" onClick={() => handleEdit(b.bookingId)}>Edit</button>
-                <button className="danger" onClick={() => handleDelete(b.bookingId)}>Cancel</button>
+                <button className="edit" onClick={() => handleEdit(b.bookingId)}>Sửa</button>
+                <button className="danger" onClick={() => handleDelete(b.bookingId)}>Hủy</button>
               </div>
             </div>
           ))}

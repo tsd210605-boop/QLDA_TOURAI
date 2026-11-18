@@ -1,3 +1,5 @@
+// Chuyển lỗi từ quá trình xử lý REST thành mã HTTP và nội dung JSON cho frontend.
+
 package tourism_application.destination_service.exception;
 
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    /** Gom lỗi kiểm tra dữ liệu theo tên trường và trả HTTP 400 để giao diện xác định ô nhập sai. */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -23,6 +26,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+    /** Trả HTTP 500 với thông báo lỗi trong khóa error, gồm trường hợp tìm theo ID mà không có bản ghi. */
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {
         Map<String, String> error = new HashMap<>();

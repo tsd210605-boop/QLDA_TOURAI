@@ -1,51 +1,30 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { price } from "../../data/Data";
+import { formatVnd } from "../../../utils/currency";
 
-const PriceCard = () => {
-    return (
-        <div className="content flex mtop">
-            {price.map((item, index) => (
-                <div className="box shadow" key={index}>
-                    <h3>{item.plan}</h3>
-                    <h1>
-                        <span>$</span>
-                        {item.price}
-                    </h1>
-                    <p>{item.ptext}</p>
-
-                    <ul>
-                        {item.list.map((val, subIndex) => {
-                            const { icon, text, change } = val;
-                            return (
-                                <li key={subIndex}>
-                                    <label
-                                        style={{
-                                            background:
-                                                change === "color" ? "#dc35451f" : "#27ae601f",
-                                            color: change === "color" ? "#dc3848" : "#27ae60",
-                                        }}
-                                    >
-                                        {icon}
-                                    </label>
-                                    <p>{text}</p>
-                                </li>
-                            );
-                        })}
-                    </ul>
-
-                    <button
-                        className="btn5"
-                        style={{
-                            background: item.plan === "Standard" ? "#27ae60" : "#fff",
-                            color: item.plan === "Standard" ? "#fff" : "#27ae60",
-                        }}
-                    >
-                        Start {item.plan}
-                    </button>
-                </div>
-            ))}
-        </div>
-    );
-};
+const PriceCard = () => (
+  <div className="content flex mtop">
+    {price.map((item) => (
+      <div className="box shadow" key={item.plan}>
+        <h3>{item.plan}</h3>
+        <p className="tour-plan-from">Giá từ</p>
+        <h1 className="tour-plan-price">{formatVnd(item.price)}</h1>
+        <p>/người · {item.ptext}</p>
+        <ul>
+          {item.features.map((feature) => (
+            <li key={feature}>
+              <label style={{ background: "#27ae601f", color: "#27ae60" }}>
+                <i className="fa-solid fa-check" aria-hidden="true"></i>
+              </label>
+              <p>{feature}</p>
+            </li>
+          ))}
+        </ul>
+        <Link className="btn5 tour-plan-link" to="/packages">Xem các tour</Link>
+      </div>
+    ))}
+  </div>
+);
 
 export default PriceCard;

@@ -1,3 +1,4 @@
+import { formatPrice, serviceTypeLabel, translateError } from "../../../utils/locale";
 import React, { useState, useEffect } from "react";
 import { getAllSuppliers, createSupplier } from "../../../api/operationsApi";
 
@@ -49,7 +50,7 @@ const SuppliersList = () => {
       });
       loadSuppliers();
     } catch (err) {
-      alert("Lỗi thêm đối tác: " + err.message);
+      alert("Lỗi thêm đối tác: " + translateError(err.message));
     }
   };
 
@@ -76,13 +77,13 @@ const SuppliersList = () => {
         <table style={{ width: "100%", borderCollapse: "collapse", background: "#fff", boxShadow: "0 2px 4px rgba(0,0,0,0.08)" }}>
           <thead>
             <tr style={{ background: "#2c3e50", color: "#fff", textAlign: "left" }}>
-              <th style={{ padding: "12px" }}>ID</th>
+              <th style={{ padding: "12px" }}>Mã</th>
               <th style={{ padding: "12px" }}>Tên Nhà Cung Ứng</th>
               <th style={{ padding: "12px" }}>Loại Dịch Vụ</th>
               <th style={{ padding: "12px" }}>Người Liên Hệ</th>
               <th style={{ padding: "12px" }}>Số Điện Thoại</th>
               <th style={{ padding: "12px" }}>Địa Chỉ</th>
-              <th style={{ padding: "12px" }}>Công Nợ Hiện Tại ($)</th>
+              <th style={{ padding: "12px" }}>Công Nợ Hiện Tại (đ)</th>
             </tr>
           </thead>
           <tbody>
@@ -98,14 +99,14 @@ const SuppliersList = () => {
                     backgroundColor: s.serviceType === "HOTEL" ? "#9b59b6" : s.serviceType === "RESTAURANT" ? "#e67e22" : "#3498db",
                     color: "#fff"
                   }}>
-                    {s.serviceType}
+                    {serviceTypeLabel(s.serviceType)}
                   </span>
                 </td>
                 <td style={{ padding: "12px" }}>{s.contactPerson}</td>
                 <td style={{ padding: "12px" }}>{s.phone}</td>
                 <td style={{ padding: "12px" }}>{s.address}</td>
                 <td style={{ padding: "12px", color: s.currentDebt > 0 ? "#e74c3c" : "#2ecc71", fontWeight: "bold" }}>
-                  ${s.currentDebt || 0}
+                  {formatPrice(s.currentDebt || 0)}
                 </td>
               </tr>
             ))}
@@ -136,11 +137,11 @@ const SuppliersList = () => {
                   onChange={(e) => setForm({ ...form, serviceType: e.target.value })}
                   style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
                 >
-                  <option value="HOTEL">HOTEL (Khách sạn / Lưu trú)</option>
-                  <option value="RESTAURANT">RESTAURANT (Ăn uống / Nhà hàng)</option>
-                  <option value="TRANSPORT">TRANSPORT (Xe / Tàu vận chuyển)</option>
-                  <option value="TICKET">TICKET (Vé tham quan / Cáp treo)</option>
-                  <option value="OTHER">OTHER (Dịch vụ khác)</option>
+                  <option value="HOTEL">Khách sạn / lưu trú</option>
+                  <option value="RESTAURANT">Ăn uống / nhà hàng</option>
+                  <option value="TRANSPORT">Xe / tàu vận chuyển</option>
+                  <option value="TICKET">Vé tham quan / cáp treo</option>
+                  <option value="OTHER">Dịch vụ khác</option>
                 </select>
               </div>
               <div style={{ marginBottom: "10px" }}>

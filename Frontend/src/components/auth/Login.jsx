@@ -1,3 +1,4 @@
+import { translateError } from "../../utils/locale";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { login } from "../../api/authApi";
@@ -30,7 +31,7 @@ const Login = () => {
         history.push("/bookings");
       }
     } catch (err) {
-      setError(err.message || "Đăng nhập thất bại");
+      setError(translateError(err.message) || "Đăng nhập thất bại");
     } finally {
       setLoading(false);
     }
@@ -44,7 +45,7 @@ const Login = () => {
 
         <div style={{ marginBottom: "15px" }}>
           <label style={{ fontSize: "12px", color: "#666", marginBottom: "6px" }}>
-            Tài khoản Demo thử nghiệm:
+            Tài khoản dùng thử thử nghiệm:
           </label>
           <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
             <button
@@ -60,7 +61,7 @@ const Login = () => {
               }}
               onClick={() => setDemoAccount("customer@travelbook.com", "customer123")}
             >
-              Customer
+              Khách hàng
             </button>
             <button
               type="button"
@@ -75,7 +76,7 @@ const Login = () => {
               }}
               onClick={() => setDemoAccount("guide@travelbook.com", "guide123")}
             >
-              Guide
+              Hướng dẫn viên
             </button>
             <button
               type="button"
@@ -90,7 +91,7 @@ const Login = () => {
               }}
               onClick={() => setDemoAccount("sales@travelbook.com", "sales123")}
             >
-              Sales
+              Nhân viên kinh doanh
             </button>
             <button
               type="button"
@@ -105,7 +106,7 @@ const Login = () => {
               }}
               onClick={() => setDemoAccount("operator@travelbook.com", "operator123")}
             >
-              Operator
+              Điều hành tour
             </button>
             <button
               type="button"
@@ -120,7 +121,7 @@ const Login = () => {
               }}
               onClick={() => setDemoAccount("admin@travelbook.com", "admin123")}
             >
-              Admin
+              Quản trị viên
             </button>
           </div>
         </div>

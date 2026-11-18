@@ -1,8 +1,9 @@
+import { roleLabel } from "../../../utils/locale";
 import React, { useState, useEffect } from "react";
 import "./header.css";
 import { nav } from "../../data/Data";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import logo from "../../images/logo2.jpg";
+import Brand from "../brand/Brand";
 import { isLoggedIn, canAccessAdmin, getUserRole, getUserName, clearSession } from "../../../utils/auth";
 
 const Header = () => {
@@ -54,7 +55,7 @@ const Header = () => {
         setAuth({
             loggedIn: false,
             role: "CUSTOMER",
-            userName: "User",
+            userName: "Người dùng",
             canAdmin: false
         });
         window.location.href = "/";
@@ -64,7 +65,7 @@ const Header = () => {
         <header className="header">
             <div className="container header-container">
                 <div className="logo">
-                    <img src={logo} alt="Site Logo" />
+                    <Brand />
                 </div>
 
                 <nav className={mobile ? "nav-links mobile-nav" : "nav-links"}>
@@ -88,7 +89,7 @@ const Header = () => {
                     ) : (
                         <>
                             <span style={{ fontSize: "13px", fontWeight: "600", color: "#2c3e50" }}>
-                                {auth.userName} <strong style={{ color: "#2980b9" }}>[{auth.role}]</strong>
+                                {auth.userName} <strong style={{ color: "#2980b9" }}>[{roleLabel(auth.role)}]</strong>
                             </span>
                             {auth.canAdmin && (
                                 <button type="button" className="signin-btn" onClick={handleAdminClick}>

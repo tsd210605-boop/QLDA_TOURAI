@@ -1,9 +1,14 @@
+// Hiển thị thông tin tóm tắt của tour trên catalog và danh sách tour liên quan.
+
+import { categoryLabel, formatDuration, formatPrice } from "../../utils/locale";
 import React from "react";
 import { useHistory } from "react-router-dom";
 
+/** Dựng thẻ dữ liệu của một tour với thông tin chính để khách chọn xem. */
 const PackageCard = ({ pkg }) => {
     const history = useHistory();
 
+    /** Điều hướng tới trang chi tiết của tour theo packageId. */
     const handleCardClick = () => {
         history.push(`/packages/${pkg.packageId}`);
     };
@@ -12,7 +17,7 @@ const PackageCard = ({ pkg }) => {
         <div className="package-card" onClick={handleCardClick}>
             <div className="package-card-img-wrap">
                 <img src={pkg.imageUrl} alt={pkg.title} className="package-img" />
-                {pkg.category && <span className="package-category-chip">{pkg.category}</span>}
+                {pkg.category && <span className="package-category-chip">{categoryLabel(pkg.category)}</span>}
             </div>
 
             <div className="package-card-content">
@@ -20,7 +25,7 @@ const PackageCard = ({ pkg }) => {
 
                 <div className="package-meta-row">
                     <span className="package-meta-item">
-                        <i className="fa-regular fa-clock"></i> {pkg.duration || "N/A"}
+                        <i className="fa-regular fa-clock"></i> {formatDuration(pkg.duration || "Chưa cập nhật")}
                     </span>
                     <span className="package-meta-item">
                         <i className="fa-solid fa-users"></i> Tối đa {pkg.peopleCount} khách
@@ -34,7 +39,7 @@ const PackageCard = ({ pkg }) => {
                 <div className="package-card-footer">
                     <div className="package-price-box">
                         <span className="price-prefix">Giá từ</span>
-                        <strong className="price-val">${pkg.price}</strong>
+                        <strong className="price-val">{formatPrice(pkg.price)}</strong>
                     </div>
 
                     <button

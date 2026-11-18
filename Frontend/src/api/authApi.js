@@ -1,3 +1,4 @@
+import { translateError } from "../utils/locale";
 import { API } from "./config";
 import { authHeaders } from "../utils/auth";
 
@@ -13,7 +14,7 @@ export const login = async (email, password) => {
   const data = await res.json();
   if (!res.ok) {
     const errorMsg = data && data.message ? data.message : "Đăng nhập thất bại";
-    throw new Error(errorMsg);
+    throw new Error(translateError(errorMsg));
   }
   return data;
 };
@@ -28,7 +29,7 @@ export const register = async ({ email, password, name, phone }) => {
   const data = await res.json();
   if (!res.ok) {
     const errorMsg = data && data.message ? data.message : "Đăng ký thất bại";
-    throw new Error(errorMsg);
+    throw new Error(translateError(errorMsg));
   }
   return data;
 };
@@ -37,7 +38,7 @@ export const getMe = async () => {
   const res = await fetch(`${AUTH_URL}/me`, {
     headers: authHeaders(true),
   });
-  if (!res.ok) throw new Error("Không thể xác thực danh tính");
+  if (!res.ok) throw new Error(translateError("Không thể xác thực danh tính"));
   return res.json();
 };
 
@@ -45,7 +46,7 @@ export const getAllUsers = async () => {
   const res = await fetch(`${AUTH_URL}/users`, {
     headers: authHeaders(true),
   });
-  if (!res.ok) throw new Error("Không thể tải danh sách tài khoản");
+  if (!res.ok) throw new Error(translateError("Không thể tải danh sách tài khoản"));
   return res.json();
 };
 
@@ -56,7 +57,7 @@ export const updateUserRole = async (userId, role) => {
     body: JSON.stringify({ role }),
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Không thể cập nhật vai trò");
+  if (!res.ok) throw new Error(translateError(data.message || "Không thể cập nhật vai trò"));
   return data;
 };
 
@@ -67,7 +68,7 @@ export const updateUserStatus = async (userId, status) => {
     body: JSON.stringify({ status }),
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Không thể cập nhật trạng thái");
+  if (!res.ok) throw new Error(translateError(data.message || "Không thể cập nhật trạng thái"));
   return data;
 };
 
@@ -75,7 +76,7 @@ export const getAllRoles = async () => {
   const res = await fetch(`${AUTH_URL}/roles`, {
     headers: authHeaders(true),
   });
-  if (!res.ok) throw new Error("Không thể tải danh sách vai trò");
+  if (!res.ok) throw new Error(translateError("Không thể tải danh sách vai trò"));
   return res.json();
 };
 
@@ -86,7 +87,7 @@ export const updateRolePermissions = async (roleId, permissions) => {
     body: JSON.stringify({ permissions }),
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.message || "Không thể cập nhật quyền");
+  if (!res.ok) throw new Error(translateError(data.message || "Không thể cập nhật quyền"));
   return data;
 };
 
@@ -94,6 +95,6 @@ export const getAllPermissions = async () => {
   const res = await fetch(`${AUTH_URL}/permissions`, {
     headers: authHeaders(true),
   });
-  if (!res.ok) throw new Error("Không thể tải danh sách quyền");
+  if (!res.ok) throw new Error(translateError("Không thể tải danh sách quyền"));
   return res.json();
 };

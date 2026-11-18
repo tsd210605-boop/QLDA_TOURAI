@@ -1,3 +1,4 @@
+import { translateError } from "../utils/locale";
 import { ENDPOINTS } from "./config";
 
 const PAYMENTS_URL = ENDPOINTS.payments;
@@ -9,7 +10,7 @@ export const createPaymentUrl = async ({ bookingId, gateway = "VNPAY", returnUrl
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ bookingId, gateway, returnUrl }),
   });
-  if (!res.ok) throw new Error("Failed to create payment URL");
+  if (!res.ok) throw new Error(translateError("Failed to create payment URL"));
   return res.json();
 };
 
@@ -31,6 +32,6 @@ export const handlePaymentCallback = async (gateway, params) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params),
   });
-  if (!res.ok) throw new Error("Failed to process payment callback");
+  if (!res.ok) throw new Error(translateError("Failed to process payment callback"));
   return res.json();
 };

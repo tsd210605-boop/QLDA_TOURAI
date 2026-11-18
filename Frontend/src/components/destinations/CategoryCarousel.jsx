@@ -1,9 +1,12 @@
+// Hiển thị các danh mục điểm đến theo dạng băng chuyền để người dùng chuyển tới nhóm cần xem.
+
+import { categoryLabel } from "../../utils/locale";
 import React, { useState } from "react";
 import "./CategoryCarousel.css";
 
 const categories = [
     {
-        title: "Explore Destinations",
+        title: "Khám phá điểm đến",
         image: "/images/destinations-carousel/explore.jpg",
         categoryId: null,
     },
@@ -29,13 +32,16 @@ const categories = [
     },
 ];
 
+/** Dựng băng chuyền và báo mã danh mục đang chọn cho trang điểm đến. */
 const CategoryCarousel = ({ onCategoryClick }) => {
     const [current, setCurrent] = useState(0);
 
+    /** Chuyển tới ảnh kế tiếp và quay về đầu khi đến cuối danh sách. */
     const nextSlide = () => {
         setCurrent((prev) => (prev + 1) % categories.length);
     };
 
+    /** Chuyển về ảnh liền trước và quay về cuối khi đang ở đầu danh sách. */
     const prevSlide = () => {
         setCurrent((prev) => (prev - 1 + categories.length) % categories.length);
     };
@@ -62,7 +68,7 @@ const CategoryCarousel = ({ onCategoryClick }) => {
                     }
                     style={{ cursor: categories[current].categoryId ? "pointer" : "default" }}
                 >
-                    {categories[current].title}
+                    {categoryLabel(categories[current].title)}
                 </div>
             </div>
 

@@ -1,41 +1,30 @@
-import React from "react"
-import { list } from "../../data/Data"
+import { categoryLabel } from "../../../utils/locale";
+import React from "react";
+import { list } from "../../data/Data";
+import { formatVnd } from "../../../utils/currency";
 
-const RecentCard = () => {
-  return (
-    <>
-      <div className='content grid3 mtop'>
-        {list.map((val, index) => {
-          const { cover, category, location, name, price, type } = val
-          return (
-            <div className='box shadow' key={index}>
-              <div className='img'>
-                <img src={cover} alt='' />
-              </div>
-              <div className='text'>
-                <div className='category flex'>
-                  <span style={{ background: category === "For Sale" ? "#25b5791a" : "#ff98001a", color: category === "For Sale" ? "#25b579" : "#ff9800" }}>{category}</span>
-                  <i className='fa fa-heart'></i>
-                </div>
-                <h4>{name}</h4>
-                <p>
-                  <i className='fa fa-location-dot'></i> {location}
-                </p>
-              </div>
-              <div className='button flex'>
-                <div>
-                  <button className='btn2'>{price}</button> <label htmlFor=''>/per person</label>
-                </div>
-                
-                <span>{type}</span>
-              </div>
-              
-            </div>
-          )
-        })}
-      </div>
-    </>
-  )
-}
+const RecentCard = () => (
+  <div className="content grid3 mtop">
+    {list.map(({ id, cover, category, location, name, price }) => (
+      <article className="box shadow" key={id}>
+        <div className="img">
+          <img src={cover} alt={name} loading="lazy" />
+        </div>
+        <div className="text">
+          <div className="category flex">
+            <span style={{ background: "#ff98001a", color: "#a85b00" }}>{categoryLabel(category)}</span>
+            <i className="fa fa-heart" aria-hidden="true"></i>
+          </div>
+          <h4>{name}</h4>
+          <p><i className="fa fa-location-dot" aria-hidden="true"></i> {location}</p>
+        </div>
+        <div className="button flex">
+          <span className="tour-price">Từ {formatVnd(price)}</span>
+          <span>/người</span>
+        </div>
+      </article>
+    ))}
+  </div>
+);
 
-export default RecentCard
+export default RecentCard;

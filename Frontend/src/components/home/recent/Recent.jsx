@@ -8,7 +8,8 @@ const Recent = () => {
     <>
       <section className='recent padding'>
         <div className='container'>
-          <Heading title='Our Packages' subtitle='Discover the best of Sri Lanka with packages designed for every type of traveler. Enjoy nature and adventure with scenic treks, waterfalls, and camping under the stars. Immerse yourself in the island’s rich cultural and historical heritage, visiting ancient cities, temples, etc... Experience vibrant city life and culinary delights, or unwind with beach and relaxation packages, including snorkeling, luxury resorts, and romantic sunset cruises. Each package is crafted to give you unforgettable memories at affordable prices.' />
+          <Heading title="Tour du lịch Việt Nam" subtitle="Lựa chọn hành trình khám phá thiên nhiên, di sản văn hóa, ẩm thực địa phương hoặc nghỉ dưỡng biển đảo với ngân sách phù hợp." />
+          <p className="home-price-note">Giá tham khảo từ mức hiển thị cho một người lớn, chưa bao gồm vé máy bay. Giá thực tế tùy ngày khởi hành và dịch vụ lựa chọn.</p>
           <RecentCard />
         </div>
       </section>

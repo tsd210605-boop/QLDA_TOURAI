@@ -1,7 +1,7 @@
 import React from "react";
 import { footer } from "../../data/Data";
 import "./footer.css";
-import logo from "../../images/logo2.jpg";
+import Brand from "../brand/Brand";
 
 const Footer = () => {
     return (
@@ -11,10 +11,10 @@ const Footer = () => {
                 <div className="container">
                     <div className="send flex">
                         <div className="text">
-                            <h1>Do You Have Questions?</h1>
-                            <p>We'll help you to solve your travel needs.</p>
+                            <h1>Bạn cần tư vấn?</h1>
+                            <p>Chúng tôi sẵn sàng hỗ trợ nhu cầu du lịch của bạn.</p>
                         </div>
-                        <button className="btn5">Contact Us Today</button>
+                        <button className="btn5">Liên hệ ngay</button>
                     </div>
                 </div>
             </section>
@@ -25,16 +25,15 @@ const Footer = () => {
                     {/* Logo / Newsletter Box */}
                     <div className="box">
                         <div className="logo">
-                            <img src={logo} alt="Footer logo" />
-                            <h2>Do You Need Help With Anything?</h2>
+                            <Brand light />
+                            <h2>Bạn cần chúng tôi hỗ trợ điều gì?</h2>
                             <p>
-                                Receive monthly travel deals, updates, and exclusive discounts
-                                in your inbox
+                                Nhận thông tin du lịch, cập nhật hành trình và ưu đãi hàng tháng qua email.
                             </p>
 
                             <div className="input flex">
-                                <input type="text" placeholder="Email Address" />
-                                <button>Subscribe</button>
+                                <input type="text" placeholder="Địa chỉ email" />
+                                <button>Đăng ký nhận tin</button>
                             </div>
                         </div>
                     </div>
@@ -55,7 +54,7 @@ const Footer = () => {
 
             {/* Legal Section */}
             <div className="legal">
-                <span>© 2025 TravelBook. Designed By TravelBook.</span>
+                <span>© {new Date().getFullYear()} Tourism. Bảo lưu mọi quyền.</span>
             </div>
         </>
     );

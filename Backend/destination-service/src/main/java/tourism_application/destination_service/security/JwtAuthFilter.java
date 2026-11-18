@@ -1,3 +1,5 @@
+// Đọc Bearer JWT và đưa danh tính từ token hợp lệ vào SecurityContext của request.
+
 package tourism_application.destination_service.security;
 
 import jakarta.servlet.FilterChain;
@@ -18,10 +20,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtTokenService jwtTokenService;
 
+    /** Nhận dịch vụ xác minh và đọc thông tin từ JWT. */
     public JwtAuthFilter(JwtTokenService jwtTokenService) {
         this.jwtTokenService = jwtTokenService;
     }
 
+    /** Đọc Bearer token, gán email và quyền ROLE_ tương ứng nếu token hợp lệ, rồi chuyển request sang bước xử lý tiếp theo. */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {

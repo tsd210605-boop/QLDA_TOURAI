@@ -51,3 +51,40 @@
     margin-bottom: 50px;
   }
 }
+
+.price .tour-plan-price {
+  font-size: clamp(24px, 3vw, 36px);
+  white-space: nowrap;
+  margin: 8px 0;
+}
+.price .tour-plan-from {
+  margin-top: 16px;
+}
+.price .tour-plan-link {
+  display: inline-block;
+  text-transform: none;
+}
+.price ul li p {
+  flex: 1;
+  text-align: left;
+}
+.price ul li label {
+  flex-shrink: 0;
+}
+
+.price .heading h1 {
+  font-size: 35px;
+}
+.price .content {
+  align-items: stretch;
+}
+.price .content .box {
+  display: flex;
+  flex-direction: column;
+}
+.price ul {
+  margin-bottom: 24px;
+}
+.price .tour-plan-link {
+  margin-top: auto;
+}

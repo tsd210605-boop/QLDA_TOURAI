@@ -1,3 +1,5 @@
+// Xác minh JWT bằng cấu hình của dịch vụ và đọc thông tin dùng để phân quyền.
+
 package tourism_application.destination_service.security;
 
 import com.auth0.jwt.JWT;
@@ -14,6 +16,7 @@ public class JwtTokenService {
     @Value("${jwt.secret}")
     private String secret;
 
+    /** Kiểm tra token, lấy email từ subject và role từ claim. Dùng USER khi thiếu role và trả Optional rỗng khi xác minh thất bại. */
     public Optional<TokenUser> parseToken(String token) {
         try {
             DecodedJWT jwt = JWT.require(Algorithm.HMAC256(secret))
@@ -26,5 +29,6 @@ public class JwtTokenService {
         }
     }
 
+    /** Chứa email và role đã đọc từ token hợp lệ để bộ lọc tạo thông tin xác thực. */
     public record TokenUser(String email, String role) {}
 }

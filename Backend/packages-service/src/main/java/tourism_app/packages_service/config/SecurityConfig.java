@@ -1,3 +1,5 @@
+// Thiết lập chuỗi Spring Security cho dịch vụ và phân quyền truy cập API quản trị.
+
 package tourism_app.packages_service.config;
 
 import org.springframework.context.annotation.Bean;
@@ -16,10 +18,12 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
 
+    /** Nhận bộ lọc JWT để tích hợp vào chuỗi bảo mật của dịch vụ. */
     public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
+    /** Cho phép request công khai và preflight, giới hạn API quản trị cho ADMIN, OPERATOR hoặc SALES, rồi đăng ký bộ lọc JWT. */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())

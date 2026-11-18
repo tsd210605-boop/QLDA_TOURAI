@@ -5,7 +5,6 @@ import Hero from "./hero/Hero"
 import Location from "./location/Location"
 import Price from "./price/Price"
 import Recent from "./recent/Recent"
-import Team from "./team/Team"
 import "./home.css"
 
 const Home = () => {
@@ -15,21 +14,21 @@ const Home = () => {
 
     <form className='flex'>
         <div className='box'>
-            <span>Destination</span>
-            <input type='text' placeholder='Location' />
+            <span>Điểm đến</span>
+            <input type='text' placeholder='Ví dụ: Đà Nẵng' />
         </div>
         <div className='box'>
-            <span>Package Type</span>
-            <input type='text' placeholder='Type' />
+            <span>Loại tour</span>
+            <input type='text' placeholder='Biển đảo, văn hóa, khám phá...' />
         </div>
         <div className='box'>
-            <span>Price Range</span>
-            <input type='text' placeholder='Price Range' />
+            <span>Ngân sách</span>
+            <input type='text' placeholder='Ví dụ: dưới 3.000.000 đ' />
         </div>
         <div className='box'>
-            <h4>Search</h4>
+            <h4>Tìm tour</h4>
         </div>
-        <button className='btn1'>
+        <button className='btn1' aria-label='Tìm tour'>
             <i className='fa fa-search'></i>
         </button>
           </form>
@@ -39,7 +38,7 @@ const Home = () => {
       <Recent />
       <Featured />
       <Awards />
-      <Team />
+
       
     </>
   )

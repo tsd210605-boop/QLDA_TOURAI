@@ -2,7 +2,7 @@
 .admin-container {
     display: flex;
     min-height: 100vh;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Arial, sans-serif;
     background: url('../images/admin-background.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #333;
@@ -439,15 +439,80 @@ form {
         display: block;
         font-weight: bold;
         margin-bottom: 6px;
+        color: #2c3e50;
     }
 
-    .package-form input {
+    .package-form input,
+    .package-form select,
+    .package-form textarea {
         width: 100%;
         padding: 12px;
         margin-bottom: 18px;
         border-radius: 8px;
         border: 1px solid #ccc;
         font-size: 15px;
+        background: #fff;
+        box-sizing: border-box;
+    }
+
+    .package-form select {
+        cursor: pointer;
+    }
+
+    .package-form-error {
+        background: #fee2e2;
+        color: #b91c1c;
+        border: 1px solid #f87171;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+
+    .package-preview {
+        width: 100%;
+        max-height: 220px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 2px solid #1abc9c;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .package-form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .package-form-actions button {
+        flex: 1;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .package-form-actions .btn-cancel {
+        background: #95a5a6;
+        color: #fff;
+    }
+
+    .package-form-actions .btn-cancel:hover {
+        background: #7f8c8d;
+    }
+
+    .package-form-actions .btn-submit {
+        background: #1abc9c;
+        color: #fff;
+    }
+
+    .package-form-actions .btn-submit:hover {
+        background: #16a085;
     }
 
     .package-form button {
@@ -456,6 +521,9 @@ form {
         font-size: 17px;
         border-radius: 10px;
         background: #1abc9c;
+        color: #fff;
+        border: none;
+        cursor: pointer;
     }
 
         .package-form button:hover {
@@ -756,11 +824,40 @@ form {
 
 /* Admin login */
 .admin-login-page {
+    position: relative;
     min-height: 100vh;
+    padding: 88px 16px 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: url('../images/admin-background.jpg') center/cover no-repeat;
+}
+
+.admin-login-home {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: #fff;
+    color: #0077cc;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: none;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
+.admin-login-home:hover {
+    background: #eef7ff;
+    color: #005fa3;
+}
+
+.admin-login-home:focus-visible {
+    outline: 3px solid #0077cc;
+    outline-offset: 3px;
 }
 
 .admin-login-form {

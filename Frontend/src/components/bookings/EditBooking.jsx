@@ -1,3 +1,4 @@
+import { bookingTypeLabel, formatPrice } from "../../utils/locale";
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom"; // v5
 import { getBookingById, updateBooking } from "../../api/bookingsApi";
@@ -18,8 +19,8 @@ const EditBooking = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <p>Loading booking details...</p>;
-  if (!booking) return <p>Booking not found.</p>;
+  if (loading) return <p>Đang tải thông tin đặt tour...</p>;
+  if (!booking) return <p>Không tìm thấy đơn đặt tour.</p>;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,70 +37,70 @@ const EditBooking = () => {
       Number(booking.days) <= 0 ||
       Number(booking.people) <= 0
     ) {
-      alert("Please fill all fields correctly");
+      alert("Vui lòng nhập đầy đủ và chính xác thông tin.");
       return;
     }
 
     updateBooking(id, booking)
       .then(() => {
-        alert("Booking updated successfully!");
+        alert("Cập nhật đơn đặt tour thành công!");
         history.push("/bookings"); // useHistory navigation
       })
-      .catch(() => alert("Failed to update booking. Please try again."));
+      .catch(() => alert("Không thể cập nhật đơn đặt tour. Vui lòng thử lại."));
   };
 
   return (
     <div className="edit-booking-form">
-      <h2>Edit Booking</h2>
+      <h2>Chỉnh sửa đơn đặt tour</h2>
 
       <label>
-        Booking Type:
-        <input type="text" name="bookingType" value={booking.bookingType} readOnly />
+        Loại đặt tour:
+        <input type="text" name="bookingType" value={bookingTypeLabel(booking.bookingType)} readOnly />
       </label>
 
       <label>
-        Full Name:
+        Họ và tên:
         <input type="text" name="name" value={booking.name} onChange={handleChange} />
       </label>
 
       <label>
-        Phone:
+        Số điện thoại:
         <input type="text" name="phone" value={booking.phone} onChange={handleChange} />
       </label>
 
       <label>
-        Destination:
+        Điểm đến:
         <input type="text" name="destination" value={booking.destination} onChange={handleChange} />
       </label>
 
       {booking.bookingType === "PACKAGE" && (
         <label>
-          Package Title:
+          Tên tour:
           <input type="text" name="packageTitle" value={booking.packageTitle || ""} readOnly />
         </label>
       )}
 
       <label>
-        Days:
+        Số ngày:
         <input type="number" name="days" value={booking.days} onChange={handleChange} />
       </label>
 
       <label>
-        Travel Date:
+        Ngày khởi hành:
         <input type="date" name="travelDate" value={booking.travelDate} onChange={handleChange} />
       </label>
 
       <label>
-        People:
+        Số khách:
         <input type="number" name="people" value={booking.people} onChange={handleChange} />
       </label>
 
       <label>
-        Total Price:
-        <input type="text" value={`$${booking.totalPrice}`} readOnly />
+        Tổng tiền:
+        <input type="text" value={formatPrice(booking.totalPrice)} readOnly />
       </label>
 
-      <button onClick={handleSubmit}>Update Booking</button>
+      <button onClick={handleSubmit}>Cập nhật đơn đặt tour</button>
     </div>
   );
 };

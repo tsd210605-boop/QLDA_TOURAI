@@ -1,3 +1,5 @@
+-- Tạo các bảng tour, lịch trình và ưu đãi. Khóa ngoại lịch trình hỗ trợ xóa theo tour cha.
+
 CREATE TABLE IF NOT EXISTS packages (
     package_id BIGINT NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NULL,

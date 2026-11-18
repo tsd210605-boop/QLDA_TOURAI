@@ -1,3 +1,4 @@
+import { roleLabel } from "../../utils/locale";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { clearSession, getUserRole, getUserName, hasPermission } from "../../utils/auth";
@@ -33,11 +34,11 @@ const Sidebar = () => {
   return (
     <div className="admin-sidebar">
       <div className="sidebar-header">
-        <h2>TravelBook</h2>
+        <h2>Tourism</h2>
         <div className="user-role-card">
           <span className="user-name">{userName}</span>
           <span className={`user-role-badge ${getRoleBadgeClass(role)}`}>
-            {role}
+            {roleLabel(role)}
           </span>
         </div>
       </div>
@@ -45,14 +46,14 @@ const Sidebar = () => {
       <ul className="sidebar-nav">
         <li className={location.pathname === "/admin" ? "active" : ""}>
           <Link to="/admin">
-            <i className="fa fa-tachometer-alt"></i> Dashboard
+            <i className="fa fa-tachometer-alt"></i> Tổng quan
           </Link>
         </li>
 
         {(hasPermission("TOUR_READ") || hasPermission("TOUR_WRITE")) && (
           <li className={location.pathname.startsWith("/admin/packages") ? "active" : ""}>
             <Link to="/admin/packages">
-              <i className="fa fa-suitcase"></i> Packages
+              <i className="fa fa-suitcase"></i> Tour du lịch
             </Link>
           </li>
         )}
@@ -60,7 +61,7 @@ const Sidebar = () => {
         {(hasPermission("TOUR_READ") || hasPermission("TOUR_WRITE")) && (
           <li className={location.pathname.startsWith("/admin/destinations") ? "active" : ""}>
             <Link to="/admin/destinations">
-              <i className="fa fa-map-marker-alt"></i> Destinations
+              <i className="fa fa-map-marker-alt"></i> Điểm đến
             </Link>
           </li>
         )}
@@ -68,7 +69,7 @@ const Sidebar = () => {
         {(hasPermission("BOOKING_VIEW") || hasPermission("BOOKING_MANAGE")) && (
           <li className={location.pathname.startsWith("/admin/bookings") ? "active" : ""}>
             <Link to="/admin/bookings">
-              <i className="fa fa-calendar-check"></i> Bookings
+              <i className="fa fa-calendar-check"></i> Đơn đặt tour
             </Link>
           </li>
         )}
@@ -92,7 +93,7 @@ const Sidebar = () => {
         {(hasPermission("USER_MANAGE") || hasPermission("ROLE_MANAGE")) && (
           <li className={location.pathname.startsWith("/admin/users") ? "active" : ""}>
             <Link to="/admin/users">
-              <i className="fa fa-users-cog"></i> Phân quyền & RBAC
+              <i className="fa fa-users-cog"></i> Tài khoản và phân quyền
             </Link>
           </li>
         )}

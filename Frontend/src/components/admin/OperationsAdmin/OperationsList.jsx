@@ -1,3 +1,4 @@
+import { formatPrice, serviceTypeLabel, statusLabel, translateError } from "../../../utils/locale";
 import React, { useState, useEffect } from "react";
 import { getAllDepartures, dispatchTour, bookSupplierForTour, getTourAllocations, getAllSuppliers } from "../../../api/operationsApi";
 
@@ -75,7 +76,7 @@ const OperationsList = () => {
       setShowDispatchModal(false);
       loadData();
     } catch (err) {
-      alert("Lỗi phân công: " + err.message);
+      alert("Lỗi phân công: " + translateError(err.message));
     }
   };
 
@@ -102,7 +103,7 @@ const OperationsList = () => {
       alert("Đặt dịch vụ đối tác thành công!");
       setShowSupplierModal(false);
     } catch (err) {
-      alert("Lỗi đặt dịch vụ: " + err.message);
+      alert("Lỗi đặt dịch vụ: " + translateError(err.message));
     }
   };
 
@@ -113,13 +114,13 @@ const OperationsList = () => {
       setAllocations(data);
       setShowAllocationsModal(true);
     } catch (err) {
-      alert("Lỗi tải dịch vụ: " + err.message);
+      alert("Lỗi tải dịch vụ: " + translateError(err.message));
     }
   };
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>MODULE ĐIỀU HÀNH TOUR & ĐỐI TÁC</h2>
+      <h2>Điều hành tour và đối tác</h2>
       <p style={{ color: "#666", marginBottom: "20px" }}>
         Quản lý đợt khởi hành đoàn tour, phân công Hướng dẫn viên, Xe vận chuyển và điều phối dịch vụ nhà cung ứng (Khách sạn, Nhà hàng, Vé tham quan).
       </p>
@@ -178,7 +179,7 @@ const OperationsList = () => {
                     backgroundColor: dep.status === "COMPLETED" ? "#2ecc71" : dep.status === "DISPATCHED" ? "#3498db" : "#f39c12",
                     color: "#fff"
                   }}>
-                    {dep.status}
+                    {statusLabel(dep.status)}
                   </span>
                 </td>
                 <td style={{ padding: "12px", display: "flex", gap: "6px" }}>
@@ -269,10 +270,10 @@ const OperationsList = () => {
                   onChange={(e) => setDispatchForm({ ...dispatchForm, status: e.target.value })}
                   style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
                 >
-                  <option value="PREPARING">PREPARING (Chuẩn bị)</option>
-                  <option value="DISPATCHED">DISPATCHED (Đã phân công)</option>
-                  <option value="IN_PROGRESS">IN_PROGRESS (Đang đi tour)</option>
-                  <option value="COMPLETED">COMPLETED (Hoàn thành)</option>
+                  <option value="PREPARING">Chuẩn bị</option>
+                  <option value="DISPATCHED">Đã phân công</option>
+                  <option value="IN_PROGRESS">Đang đi tour</option>
+                  <option value="COMPLETED">Hoàn thành</option>
                 </select>
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "15px" }}>
@@ -300,7 +301,7 @@ const OperationsList = () => {
                 >
                   {suppliers.map((s) => (
                     <option key={s.supplierId} value={s.supplierId}>
-                      {s.supplierName} ({s.serviceType})
+                      {s.supplierName} ({serviceTypeLabel(s.serviceType)})
                     </option>
                   ))}
                 </select>
@@ -323,15 +324,15 @@ const OperationsList = () => {
                   onChange={(e) => setSupplierForm({ ...supplierForm, serviceType: e.target.value })}
                   style={{ width: "100%", padding: "8px", boxSizing: "border-box" }}
                 >
-                  <option value="HOTEL">HOTEL (Khách sạn / Lưu trú)</option>
-                  <option value="RESTAURANT">RESTAURANT (Ăn uống / Nhà hàng)</option>
-                  <option value="TRANSPORT">TRANSPORT (Xe / Tàu / Vận chuyển)</option>
-                  <option value="TICKET">TICKET (Vé tham quan / Cáp treo)</option>
-                  <option value="OTHER">OTHER (Dịch vụ khác)</option>
+                  <option value="HOTEL">Khách sạn / lưu trú</option>
+                  <option value="RESTAURANT">Ăn uống / nhà hàng</option>
+                  <option value="TRANSPORT">Xe / tàu vận chuyển</option>
+                  <option value="TICKET">Vé tham quan / cáp treo</option>
+                  <option value="OTHER">Dịch vụ khác</option>
                 </select>
               </div>
               <div style={{ marginBottom: "10px" }}>
-                <label style={{ display: "block", marginBottom: "4px" }}>Chi phí dự kiến ($):</label>
+                <label style={{ display: "block", marginBottom: "4px" }}>Chi phí dự kiến (đ):</label>
                 <input
                   type="number"
                   required
@@ -343,7 +344,7 @@ const OperationsList = () => {
               </div>
               <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "15px" }}>
                 <button type="button" onClick={() => setShowSupplierModal(false)} style={{ padding: "8px 16px" }}>Hủy</button>
-                <button type="submit" style={{ padding: "8px 16px", background: "#27ae60", color: "#fff", border: "none", borderRadius: "4px" }}>Xác nhận đặt & Cấp Voucher</button>
+                <button type="submit" style={{ padding: "8px 16px", background: "#27ae60", color: "#fff", border: "none", borderRadius: "4px" }}>Xác nhận đặt & Cấp phiếu dịch vụ</button>
               </div>
             </form>
           </div>
@@ -364,7 +365,7 @@ const OperationsList = () => {
                     <th style={{ padding: "8px", border: "1px solid #ddd" }}>Tên Dịch Vụ</th>
                     <th style={{ padding: "8px", border: "1px solid #ddd" }}>Loại</th>
                     <th style={{ padding: "8px", border: "1px solid #ddd" }}>Chi Phí</th>
-                    <th style={{ padding: "8px", border: "1px solid #ddd" }}>Mã Voucher</th>
+                    <th style={{ padding: "8px", border: "1px solid #ddd" }}>Mã phiếu dịch vụ</th>
                     <th style={{ padding: "8px", border: "1px solid #ddd" }}>Trạng Thái</th>
                   </tr>
                 </thead>
@@ -372,11 +373,11 @@ const OperationsList = () => {
                   {allocations.map((a) => (
                     <tr key={a.allocationId}>
                       <td style={{ padding: "8px", border: "1px solid #ddd" }}>{a.serviceName}</td>
-                      <td style={{ padding: "8px", border: "1px solid #ddd" }}>{a.serviceType}</td>
-                      <td style={{ padding: "8px", border: "1px solid #ddd" }}>${a.estimatedCost}</td>
+                      <td style={{ padding: "8px", border: "1px solid #ddd" }}>{serviceTypeLabel(a.serviceType)}</td>
+                      <td style={{ padding: "8px", border: "1px solid #ddd" }}>{formatPrice(a.estimatedCost)}</td>
                       <td style={{ padding: "8px", border: "1px solid #ddd" }}><strong>{a.voucherCode}</strong></td>
                       <td style={{ padding: "8px", border: "1px solid #ddd" }}>
-                        <span style={{ color: "#27ae60", fontWeight: "bold" }}>{a.bookingStatus}</span>
+                        <span style={{ color: "#27ae60", fontWeight: "bold" }}>{statusLabel(a.bookingStatus)}</span>
                       </td>
                     </tr>
                   ))}

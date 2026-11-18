@@ -1,3 +1,4 @@
+import { formatDate, formatDuration, formatPrice, paymentMethodLabel, translateError } from "../../utils/locale";
 import React, { useState, useEffect } from "react";
 import { createBooking } from "../../api/bookingsApi";
 import { getPackageById, getPackageOffer } from "../../api/packagesApi";
@@ -9,7 +10,7 @@ import "./packageBookingForm.css";
 const PackageBookingForm = () => {
   const { id } = useParams();
 
-  const [pkg, setPackage] = useState(null);
+  const [pkg, setPkg] = useState(null);
   const [offer, setOffer] = useState(null);
   const [travelDate, setTravelDate] = useState("2026-11-15");
   const [people, setPeople] = useState(1);
@@ -36,7 +37,7 @@ const PackageBookingForm = () => {
 
   useEffect(() => {
     getPackageById(id).then((data) => {
-      setPackage(data);
+      setPkg(data);
       setPeople(data?.peopleCount || 1);
 
       getPackageOffer(id).then((offerData) => {
@@ -52,7 +53,7 @@ const PackageBookingForm = () => {
   const discount = offer ? offer.discountPercentage : 0;
   const pricePerPerson = pkg.price - (pkg.price * discount) / 100;
   const totalPrice = pricePerPerson * people;
-  const totalPriceVND = Math.round(totalPrice * 25400);
+  const totalPriceVnd = Math.round(totalPrice);
 
   const handleBooking = async () => {
     if (!travelDate || !name || !phone || people <= 0) {
@@ -126,7 +127,7 @@ const PackageBookingForm = () => {
       }
     } catch (err) {
       console.error("Payment error:", err);
-      alert("Lỗi khi kết nối cổng thanh toán: " + err.message);
+      alert("Lỗi khi kết nối cổng thanh toán: " + translateError(err.message));
     } finally {
       setLoading(false);
     }
@@ -149,13 +150,13 @@ const PackageBookingForm = () => {
           </div>
 
           <p><b>Điểm đến:</b> {pkg.mainDestinations}</p>
-          <p><b>Thời gian:</b> {pkg.duration}</p>
-          <p><b>Giá mỗi khách:</b> ${pkg.price}</p>
+          <p><b>Thời gian:</b> {formatDuration(pkg.duration)}</p>
+          <p><b>Giá mỗi khách:</b> {formatPrice(pkg.price)}</p>
 
           {offer && (
             <p className="offer">
-              Ưu đãi: Giảm {offer.discountPercentage}% → $
-              {(pkg.price - (pkg.price * offer.discountPercentage) / 100).toFixed(2)} / người
+              Ưu đãi: Giảm {offer.discountPercentage}% → 
+              {formatPrice(pricePerPerson)} / người
             </p>
           )}
 
@@ -227,7 +228,7 @@ const PackageBookingForm = () => {
             <input
               type="text"
               readOnly
-              value={`$${totalPrice.toFixed(2)} (${totalPriceVND.toLocaleString("vi-VN")} đ)`}
+              value={formatPrice(totalPriceVnd)}
             />
           </label>
 
@@ -252,7 +253,7 @@ const PackageBookingForm = () => {
             </div>
             <div className="summary-row">
               <span className="summary-label">Ngày khởi hành:</span>
-              <span className="summary-val">{createdBooking.travelDate}</span>
+              <span className="summary-val">{formatDate(createdBooking.travelDate)}</span>
             </div>
             <div className="summary-row">
               <span className="summary-label">Số khách:</span>
@@ -261,8 +262,8 @@ const PackageBookingForm = () => {
             <div className="summary-row total-highlight">
               <span className="summary-label">Tổng thanh toán:</span>
               <strong className="summary-val-price">
-                ${totalPrice.toFixed(2)}
-                <small> ({totalPriceVND.toLocaleString("vi-VN")} VNĐ)</small>
+                {formatPrice(totalPrice.toFixed(2))}
+                
               </strong>
             </div>
           </div>
@@ -323,7 +324,7 @@ const PackageBookingForm = () => {
               <div className="method-info">
                 <div className="method-title-row">
                   <i className="fa-solid fa-bolt method-icon"></i>
-                  <strong>Thanh toán Thử nghiệm Nhanh (Instant Approval)</strong>
+                  <strong>Thanh toán Thử nghiệm Nhanh</strong>
                 </div>
                 <div className="method-desc">
                   Duyệt tức thì theo yêu cầu thiết kế R05 & sinh Hóa đơn/Vé điện tử
@@ -385,12 +386,12 @@ const PackageBookingForm = () => {
                   <span className="bank-info-label">Số tiền:</span>
                   <div className="bank-info-val-copy">
                     <strong className="copyable-amount">
-                      {totalPriceVND.toLocaleString("vi-VN")} đ (${totalPrice.toFixed(2)})
+                      {formatPrice(totalPriceVnd)}
                     </strong>
                     <button
                       type="button"
                       className="btn-copy-chip"
-                      onClick={() => handleCopy(String(totalPriceVND), "Số tiền")}
+                      onClick={() => handleCopy(String(totalPriceVnd), "Số tiền")}
                     >
                       <i className="fa-regular fa-copy"></i> Sao chép
                     </button>
@@ -440,7 +441,7 @@ const PackageBookingForm = () => {
             >
               {loading
                 ? "Đang kết nối cổng..."
-                : `Thanh toán ngay $${totalPrice.toFixed(2)} (${totalPriceVND.toLocaleString("vi-VN")} đ)`}
+                : `Thanh toán ngay ${formatPrice(totalPriceVnd)}`}
             </button>
           )}
         </div>
@@ -457,16 +458,16 @@ const PackageBookingForm = () => {
                 <span className="ticket-status-tag">ĐÃ THANH TOÁN</span>
               </div>
               <div className="ticket-body">
-                <p><strong>Mã vé / Booking:</strong> <span className="highlight">{createdBooking.bookingCode || "BK-" + createdBooking.bookingId}</span></p>
+                <p><strong>Mã đặt tour:</strong> <span className="highlight">{createdBooking.bookingCode || "BK-" + createdBooking.bookingId}</span></p>
                 <p><strong>Số Hóa đơn VAT:</strong> {invoice.invoiceCode}</p>
                 <p><strong>Khách hàng:</strong> {invoice.customerName} ({invoice.customerPhone})</p>
-                <p><strong>Tổng thanh toán:</strong> ${invoice.totalAmount} (~ {totalPriceVND.toLocaleString("vi-VN")} đ)</p>
-                <p><strong>Thuế VAT (10%):</strong> ${invoice.vatAmount}</p>
-                <p><strong>Cổng thanh toán:</strong> {paymentGateway === "VIETQR" ? "Vietcombank VietQR" : paymentGateway}</p>
+                <p><strong>Tổng thanh toán:</strong> {formatPrice(invoice.totalAmount)}</p>
+                <p><strong>Thuế VAT (10%):</strong> {formatPrice(invoice.vatAmount)}</p>
+                <p><strong>Cổng thanh toán:</strong> {paymentGateway === "VIETQR" ? "Vietcombank VietQR" : paymentMethodLabel(paymentGateway)}</p>
               </div>
 
               <div className="ticket-qr-section">
-                <div className="ticket-qr-title">MÃ QR VÉ ĐIỆN TỬ ĐIỂM DANH (E-TICKET QR):</div>
+                <div className="ticket-qr-title">MÃ QR VÉ ĐIỆN TỬ ĐIỂM DANH:</div>
                 <div className="ticket-qr-box">
                   <i className="fa-solid fa-qrcode ticket-qr-icon"></i>
                   <span className="qr-code-text">[ {invoice.qrCodeData} ]</span>

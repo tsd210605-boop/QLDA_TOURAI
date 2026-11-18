@@ -8,7 +8,7 @@ const Pricing = () => {
   return (
     <>
       <section className='pricing mb'>
-        <Back name='Your Journey, Our Priority' title='Try Our Seasonal Offers.' cover={img} />
+        <Back name='Hành trình của bạn, ưu tiên của chúng tôi' title="Khám phá các hành trình theo mùa." cover={img} />
         <div className='price container'>
           <PriceCard />
         </div>

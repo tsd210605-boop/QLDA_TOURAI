@@ -1,0 +1,15 @@
+.tourism-brand {
+  display: inline-block;
+  flex-shrink: 0;
+  color: #0077cc;
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -1px;
+  text-decoration: none;
+  text-transform: none;
+}
+.tourism-brand:hover { color: #005fa3; }
+.tourism-brand--light,
+.tourism-brand--light:hover { color: #fff; }
+.tourism-brand:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }

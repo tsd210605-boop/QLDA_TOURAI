@@ -8,7 +8,7 @@ const Blog = () => {
   return (
     <>
       <section className='blog-out mb'>
-        <Back name='Tour Packages' title='Packages Grid – Our Packages' cover={img} />
+        <Back name='Tour du lịch' title="Khám phá các tour du lịch" cover={img} />
         <div className='container recent'>
           <RecentCard />
         </div>

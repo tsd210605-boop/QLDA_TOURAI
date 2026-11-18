@@ -1,5 +1,5 @@
 .hero {
-  background-image: url("../../../../public/images/hero/main.jpg");
+  background-image: linear-gradient(rgba(15, 28, 47, 0.35), rgba(15, 28, 47, 0.35)), url("../../../../public/images/vietnam/ha-long.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

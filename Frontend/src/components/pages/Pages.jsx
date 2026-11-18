@@ -1,3 +1,5 @@
+// Khai báo các route React công khai và chuyển khu vực quản trị qua AdminRoute.
+
 import React from "react";
 import Header from "../common/header/Header";
 import Footer from "../common/footer/Footer";
@@ -24,10 +26,8 @@ import Register from "../auth/Register";
 import AdminDashboard from "../admin/AdminDashboard";
 import AdminLogin from "../admin/AdminLogin";
 import AdminRoute from "../admin/AdminRoute";
-import PackageForm from "../admin/PackagesAdmin/PackageForm";
-import DestinationForm from "../admin/DestinationsAdmin/DestinationForm";
-import BookingForm from "../admin/BookingsAdmin/BookingForm";
 
+/** Dựng định tuyến cấp ứng dụng, gồm trang điểm đến, danh sách tour và chi tiết theo ID. */
 const Pages = () => {
     return (
         <Router>
@@ -37,14 +37,7 @@ const Pages = () => {
 
                 <Route path="/admin">
                     <AdminRoute>
-                        <Switch>
-                            <Route exact path="/admin/packages/add" component={PackageForm} />
-                            <Route path="/admin/packages/edit/:id" component={PackageForm} />
-                            <Route exact path="/admin/destinations/add" component={DestinationForm} />
-                            <Route path="/admin/destinations/edit/:id" component={DestinationForm} />
-                            <Route path="/admin/bookings/edit/:id" component={BookingForm} />
-                            <Route path="/admin" component={AdminDashboard} />
-                        </Switch>
+                        <AdminDashboard />
                     </AdminRoute>
                 </Route>
 

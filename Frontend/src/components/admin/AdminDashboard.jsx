@@ -1,3 +1,5 @@
+// Dựng giao diện quản trị và khai báo route cho các màn hình điểm đến, tour và lịch trình.
+
 import React from "react";
 import Sidebar from "./Sidebar";
 import { Route, Switch } from "react-router-dom";
@@ -13,6 +15,7 @@ import DestinationForm from "./DestinationsAdmin/DestinationForm";
 
 // Bookings
 import BookingsList from "./BookingsAdmin/BookingsList";
+import BookingForm from "./BookingsAdmin/BookingForm";
 
 // Operations & Suppliers
 import OperationsList from "./OperationsAdmin/OperationsList";
@@ -23,6 +26,7 @@ import UserManagement from "./UserManagement/UserManagement";
 
 import "./admin.css";
 
+/** Hiển thị thanh điều hướng và chọn component quản trị tương ứng với đường dẫn đang mở. */
 const AdminDashboard = () => {
   return (
     <div className="admin-container">
@@ -33,8 +37,8 @@ const AdminDashboard = () => {
           {/* Default welcome page */}
           <Route exact path="/admin">
             <div className="welcome-dashboard">
-              <h1>Welcome to the Admin Dashboard!</h1>
-              <p>Manage your packages, destinations, bookings, tour operations, and suppliers.</p>
+              <h1>Chào mừng đến với trang quản trị Tourism!</h1>
+              <p>Quản lý tour, điểm đến, đơn đặt tour, lịch khởi hành và nhà cung ứng.</p>
             </div>
           </Route>
 
@@ -51,6 +55,7 @@ const AdminDashboard = () => {
 
           {/* Bookings */}
           <Route exact path="/admin/bookings" component={BookingsList} />
+          <Route path="/admin/bookings/edit/:id" component={BookingForm} />
 
           {/* Operations & Suppliers */}
           <Route exact path="/admin/operations" component={OperationsList} />

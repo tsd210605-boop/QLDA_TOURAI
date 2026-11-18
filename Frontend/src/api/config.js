@@ -1,3 +1,6 @@
+// Tập trung URL gốc và đường dẫn API để frontend gửi request đến Gateway.
+
+/** Bỏ dấu gạch chéo cuối URL gốc trước khi nối đường dẫn endpoint. */
 const trimSlash = (url) => (url || "").replace(/\/$/, "");
 
 const API_BASE = trimSlash(process.env.REACT_APP_API_URL || "http://localhost:8080");

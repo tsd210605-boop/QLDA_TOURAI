@@ -1,3 +1,4 @@
+import { moduleLabel, permissionLabel, roleLabel, translateError } from "../../../utils/locale";
 import React, { useState, useEffect } from "react";
 import {
   getAllUsers,
@@ -61,7 +62,7 @@ const UserManagement = () => {
       });
       setMatrixState(initialMatrix);
     } catch (err) {
-      setError(err.message || "Không thể tải dữ liệu phân quyền.");
+      setError(translateError(err.message) || "Không thể tải dữ liệu phân quyền.");
     } finally {
       setLoading(false);
     }
@@ -83,11 +84,11 @@ const UserManagement = () => {
     setError("");
     try {
       await updateUserRole(selectedUser.userId, newRole);
-      showNotification(`Đã phân vai trò ${newRole} cho tài khoản ${selectedUser.email}`);
+      showNotification(`Đã phân vai trò ${roleLabel(newRole)} cho tài khoản ${selectedUser.email}`);
       setSelectedUser(null);
       await fetchInitialData();
     } catch (err) {
-      setError(err.message || "Lỗi khi cập nhật vai trò.");
+      setError(translateError(err.message) || "Lỗi khi cập nhật vai trò.");
     } finally {
       setActionLoading(false);
     }
@@ -110,7 +111,7 @@ const UserManagement = () => {
       );
       await fetchInitialData();
     } catch (err) {
-      setError(err.message || "Lỗi khi đổi trạng thái tài khoản.");
+      setError(translateError(err.message) || "Lỗi khi đổi trạng thái tài khoản.");
     }
   };
 
@@ -138,11 +139,11 @@ const UserManagement = () => {
       await updateRolePermissions(roleId, permList);
       const roleObj = roles.find((r) => r.roleId === roleId);
       showNotification(
-        `Đã lưu thiết lập quyền thành công cho vai trò: ${roleObj ? roleObj.name : roleId}`
+        `Đã lưu thiết lập quyền thành công cho vai trò: ${roleObj ? roleLabel(roleObj.name) : roleId}`
       );
       await fetchInitialData();
     } catch (err) {
-      setError(err.message || "Lỗi khi lưu phân quyền.");
+      setError(translateError(err.message) || "Lỗi khi lưu phân quyền.");
     } finally {
       setSavingMatrix(false);
     }
@@ -162,15 +163,15 @@ const UserManagement = () => {
     const r = (roleName || "").toUpperCase();
     switch (r) {
       case "ADMIN":
-        return <span className="rbac-badge rbac-badge-admin">ADMIN</span>;
+        return <span className="rbac-badge rbac-badge-admin">Quản trị viên</span>;
       case "OPERATOR":
-        return <span className="rbac-badge rbac-badge-operator">OPERATOR</span>;
+        return <span className="rbac-badge rbac-badge-operator">Điều hành tour</span>;
       case "SALES":
-        return <span className="rbac-badge rbac-badge-sales">SALES</span>;
+        return <span className="rbac-badge rbac-badge-sales">Nhân viên kinh doanh</span>;
       case "GUIDE":
-        return <span className="rbac-badge rbac-badge-guide">GUIDE</span>;
+        return <span className="rbac-badge rbac-badge-guide">Hướng dẫn viên</span>;
       default:
-        return <span className="rbac-badge rbac-badge-customer">CUSTOMER</span>;
+        return <span className="rbac-badge rbac-badge-customer">Khách hàng</span>;
     }
   };
 
@@ -178,33 +179,33 @@ const UserManagement = () => {
     <div className="user-mgmt-container">
       <div className="user-mgmt-header">
         <div>
-          <h2>Quản lý Người Dùng & Phân Quyền (RBAC)</h2>
+          <h2>Quản lý Người Dùng & Phân Quyền</h2>
           <p className="subtitle">
-            Hệ thống xác thực JWT & kiểm soát truy cập dựa trên vai trò theo đặc tả Báo cáo
+            Quản lý tài khoản và quyền truy cập theo vai trò.
           </p>
         </div>
         <div className="header-stats">
           <div className="stat-pill">
             <span className="stat-num">{users.length}</span>
-            <span className="stat-label">Tổng Users</span>
+            <span className="stat-label">Tổng tài khoản</span>
           </div>
           <div className="stat-pill">
             <span className="stat-num">
               {users.filter((u) => u.role === "ADMIN").length}
             </span>
-            <span className="stat-label">Admin</span>
+            <span className="stat-label">Quản trị viên</span>
           </div>
           <div className="stat-pill">
             <span className="stat-num">
               {users.filter((u) => u.role === "OPERATOR").length}
             </span>
-            <span className="stat-label">Operator</span>
+            <span className="stat-label">Điều hành tour</span>
           </div>
           <div className="stat-pill">
             <span className="stat-num">
               {users.filter((u) => u.role === "SALES").length}
             </span>
-            <span className="stat-label">Sales</span>
+            <span className="stat-label">Nhân viên kinh doanh</span>
           </div>
         </div>
       </div>
@@ -223,13 +224,13 @@ const UserManagement = () => {
           className={`tab-btn ${activeTab === "matrix" ? "active" : ""}`}
           onClick={() => setActiveTab("matrix")}
         >
-          <i className="fa fa-shield-alt"></i> Ma trận Phân quyền Vai trò ({roles.length} Roles)
+          <i className="fa fa-shield-alt"></i> Ma trận Phân quyền Vai trò ({roles.length} vai trò)
         </button>
       </div>
 
       {loading ? (
         <div className="rbac-loading">
-          <i className="fa fa-spinner fa-spin"></i> Đang tải dữ liệu RBAC...
+          <i className="fa fa-spinner fa-spin"></i> Đang tải dữ liệu phân quyền...
         </div>
       ) : activeTab === "users" ? (
         <div className="tab-pane">
@@ -252,7 +253,7 @@ const UserManagement = () => {
                 <option value="ALL">Tất cả vai trò ({users.length})</option>
                 {ALL_ROLES.map((r) => (
                   <option key={r} value={r}>
-                    {r} ({users.filter((u) => u.role === r).length})
+                    {roleLabel(r)} ({users.filter((u) => u.role === r).length})
                   </option>
                 ))}
               </select>
@@ -263,11 +264,11 @@ const UserManagement = () => {
             <table className="rbac-table">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>Mã</th>
                   <th>Họ và Tên</th>
                   <th>Email</th>
                   <th>Số điện thoại</th>
-                  <th>Vai trò (Role)</th>
+                  <th>Vai trò</th>
                   <th>Trạng thái</th>
                   <th>Quyền hạn được cấp</th>
                   <th style={{ textAlign: "center" }}>Thao tác</th>
@@ -306,7 +307,7 @@ const UserManagement = () => {
                           {u.permissions && u.permissions.length > 0 ? (
                             u.permissions.slice(0, 3).map((p) => (
                               <span key={p} className="perm-chip">
-                                {p}
+                                {permissionLabel(p)}
                               </span>
                             ))
                           ) : (
@@ -360,10 +361,9 @@ const UserManagement = () => {
       ) : (
         <div className="tab-pane">
           <div className="matrix-description-banner">
-            <h3><i className="fa fa-info-circle"></i> Bảng Phân Quyền Vai Trò (Role-Permission Matrix)</h3>
+            <h3><i className="fa fa-info-circle"></i> Bảng Phân Quyền Vai Trò</h3>
             <p>
-              Cấu hình các quyền hạn (Permissions) chi tiết cho từng nhóm vai trò trong hệ thống TravelBook.
-              Các thay đổi sẽ được phản ánh trực tiếp vào token JWT và luồng kiểm soát truy cập (RBAC).
+              Cấu hình các quyền hạn chi tiết cho từng nhóm vai trò trong hệ thống Tourism. Các thay đổi sẽ được phản ánh trực tiếp vào token JWT và luồng kiểm soát truy cập.
             </p>
           </div>
 
@@ -371,11 +371,11 @@ const UserManagement = () => {
             <table className="matrix-table">
               <thead>
                 <tr>
-                  <th className="sticky-col">Module / Quyền hạn</th>
+                  <th className="sticky-col">Nhóm chức năng / quyền hạn</th>
                   {roles.map((r) => (
                     <th key={r.roleId} className="role-col-header">
                       <div className="role-header-title">{getRoleBadge(r.name)}</div>
-                      <div className="role-header-desc">{r.description}</div>
+                      <div className="role-header-desc">{roleLabel(r.name)}</div>
                       <button
                         type="button"
                         className="btn-save-role-perms"
@@ -392,9 +392,9 @@ const UserManagement = () => {
                 {permissions.map((perm) => (
                   <tr key={perm.permissionId}>
                     <td className="sticky-col perm-desc-cell">
-                      <span className="module-tag">{perm.module}</span>
-                      <strong>{perm.name}</strong>
-                      <div className="perm-sub">{perm.description}</div>
+                      <span className="module-tag">{moduleLabel(perm.module)}</span>
+                      <strong>{permissionLabel(perm.name)}</strong>
+                      <div className="perm-sub">{permissionLabel(perm.name)}</div>
                     </td>
                     {roles.map((r) => {
                       const isChecked = Boolean(
@@ -461,7 +461,7 @@ const UserManagement = () => {
                         onChange={(e) => setNewRole(e.target.value)}
                       />
                       <div className="role-radio-info">
-                        <strong>{r}</strong>
+                        <strong>{roleLabel(r)}</strong>
                         <span>
                           {r === "ADMIN" && "Toàn quyền cấu hình, tài khoản và phân quyền"}
                           {r === "OPERATOR" && "Điều hành tour, phân bổ nhà cung cấp, lịch trình"}

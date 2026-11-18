@@ -1,3 +1,4 @@
+import { translateError } from "../../utils/locale";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { register } from "../../api/authApi";
@@ -17,17 +18,17 @@ const Register = () => {
       saveSession(data);
       history.push("/bookings");
     } catch (err) {
-      setError(err.message || "Registration failed");
+      setError(translateError(err.message) || "Đăng ký thất bại");
     }
   };
 
   return (
     <div className="auth-page">
       <form className="auth-form" onSubmit={handleSubmit}>
-        <h2>Create account</h2>
+        <h2>Tạo tài khoản</h2>
         {error && <p className="auth-error">{error}</p>}
         <label>
-          Name
+          Họ tên
           <input
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -44,14 +45,14 @@ const Register = () => {
           />
         </label>
         <label>
-          Phone
+          Số điện thoại
           <input
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
           />
         </label>
         <label>
-          Password
+          Mật khẩu
           <input
             type="password"
             value={form.password}
@@ -59,9 +60,9 @@ const Register = () => {
             required
           />
         </label>
-        <button type="submit">Register</button>
+        <button type="submit">Đăng ký</button>
         <p>
-          Already have an account? <Link to="/login">Sign in</Link>
+          Bạn đã có tài khoản? <Link to="/login">Đăng nhập</Link>
         </p>
       </form>
     </div>

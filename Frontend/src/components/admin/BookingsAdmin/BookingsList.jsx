@@ -1,3 +1,4 @@
+import { bookingTypeLabel, formatDate } from "../../../utils/locale";
 import React, { useEffect, useState } from "react";
 import { getAllBookings, deleteBooking } from "../../../api/adminApi";
 import { useHistory } from "react-router-dom";
@@ -16,17 +17,17 @@ const BookingsList = () => {
       const data = await getAllBookings();
       setBookings(data);
     } catch {
-      alert("Failed to fetch bookings");
+      alert("Không tải được danh sách đặt tour.");
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Cancel this booking?")) return;
+    if (!window.confirm("Bạn có muốn hủy đơn đặt tour này?")) return;
     try {
       await deleteBooking(id);
       setBookings(bookings.filter((b) => b.bookingId !== id));
     } catch {
-      alert("Error deleting booking");
+      alert("Không thể xóa đơn đặt tour.");
     }
   };
 
@@ -37,24 +38,24 @@ const BookingsList = () => {
 
   return (
     <div className="bookings-container">
-      <h2>Bookings</h2>
+      <h2>Đơn đặt tour</h2>
       <div className="bookings-grid">
         {bookings.length === 0 ? (
-          <p>No bookings found.</p>
+          <p>Chưa có đơn đặt tour.</p>
         ) : (
           bookings.map((b) => (
             <div key={b.bookingId} className="booking-card">
-              <p><b>Name:</b> {b.name}</p>
-              <p><b>Phone:</b> {b.phone}</p>
-              <p><b>Type:</b> {b.bookingType}</p>
-              <p><b>Package:</b> {b.packageTitle || "-"}</p>
-              <p><b>Destination:</b> {b.destination}</p>
-              <p><b>Travel Date:</b> {b.travelDate}</p>
-              <p><b>People:</b> {b.people}</p>
-              <p><b>Days:</b> {b.days}</p>
+              <p><b>Họ tên:</b> {b.name}</p>
+              <p><b>Số điện thoại:</b> {b.phone}</p>
+              <p><b>Loại đặt tour:</b> {bookingTypeLabel(b.bookingType)}</p>
+              <p><b>Tour:</b> {b.packageTitle || "-"}</p>
+              <p><b>Điểm đến:</b> {b.destination}</p>
+              <p><b>Ngày khởi hành:</b> {formatDate(b.travelDate)}</p>
+              <p><b>Số khách:</b> {b.people}</p>
+              <p><b>Số ngày:</b> {b.days}</p>
               <div className="booking-buttons">
-              <button onClick={() => history.push(`/admin/bookings/edit/${b.bookingId}`)}>Edit</button>
-              <button className="danger" onClick={() => handleDelete(b.bookingId)}>Delete</button>
+              <button onClick={() => history.push(`/admin/bookings/edit/${b.bookingId}`)}>Sửa</button>
+              <button className="danger" onClick={() => handleDelete(b.bookingId)}>Xóa</button>
               </div>
             </div>
           ))

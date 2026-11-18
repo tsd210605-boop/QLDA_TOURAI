@@ -1,5 +1,6 @@
+import { roleLabel, translateError } from "../../utils/locale";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { login } from "../../api/authApi";
 import { saveSession, canAccessAdmin } from "../../utils/auth";
 import "../admin/admin.css";
@@ -29,14 +30,14 @@ const AdminLogin = () => {
 
       if (!canAccessAdmin()) {
         setError(
-          `Tài khoản (${data.role}) không có quyền truy cập khu vực quản trị. Khu vực này dành cho ADMIN, OPERATOR hoặc SALES.`
+          `Tài khoản (${roleLabel(data.role)}) không có quyền truy cập khu vực quản trị. Vui lòng đăng nhập bằng tài khoản quản trị viên, điều hành tour hoặc nhân viên kinh doanh.`
         );
         return;
       }
 
       history.push("/admin");
     } catch (err) {
-      setError(err.message || "Đăng nhập thất bại");
+      setError(translateError(err.message) || "Đăng nhập thất bại");
     } finally {
       setLoading(false);
     }
@@ -44,15 +45,19 @@ const AdminLogin = () => {
 
   return (
     <div className="admin-login-page">
+      <Link to="/" className="admin-login-home">
+        <span aria-hidden="true">←</span>
+        Về trang chủ
+      </Link>
       <form className="admin-login-form" onSubmit={handleSubmit}>
-        <h2>Quản Trị TravelBook</h2>
-        <p className="admin-login-hint">Đăng nhập hệ thống Phân quyền Quản trị (RBAC)</p>
+        <h2>Quản Trị Tourism</h2>
+        <p className="admin-login-hint">Đăng nhập hệ thống Phân quyền Quản trị</p>
 
         {error && <p className="admin-login-error">{error}</p>}
 
         <div style={{ marginBottom: "15px" }}>
           <label style={{ fontSize: "12px", color: "#666", marginBottom: "6px" }}>
-            Chọn nhanh tài khoản Demo theo Vai trò:
+            Chọn nhanh tài khoản dùng thử theo Vai trò:
           </label>
           <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
             <button
@@ -68,7 +73,7 @@ const AdminLogin = () => {
               }}
               onClick={() => setDemoAccount("admin@travelbook.com", "admin123")}
             >
-              Admin
+              Quản trị viên
             </button>
             <button
               type="button"
@@ -83,7 +88,7 @@ const AdminLogin = () => {
               }}
               onClick={() => setDemoAccount("operator@travelbook.com", "operator123")}
             >
-              Operator
+              Điều hành tour
             </button>
             <button
               type="button"
@@ -98,7 +103,7 @@ const AdminLogin = () => {
               }}
               onClick={() => setDemoAccount("sales@travelbook.com", "sales123")}
             >
-              Sales
+              Nhân viên kinh doanh
             </button>
           </div>
         </div>

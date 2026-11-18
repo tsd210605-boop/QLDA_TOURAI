@@ -1,33 +1,25 @@
-import React from "react"
-import Heading from "../../common/Heading"
-import { location } from "../../data/Data"
-import "./style.css"
+import React from "react";
+import Heading from "../../common/Heading";
+import { location } from "../../data/Data";
+import "./style.css";
 
-const Location = () => {
-  return (
-    <>
-      <section className='location padding'>
-        <div className='container'>
-          <Heading title='Explore By Location' subtitle='Sri Lanka is a small island filled with surprising climate changes within just a few hours of travel. You can visit golden beaches, misty mountains, lush forests, and ancient cities all in one trip. Its rich culture, friendly people, and breathtaking scenery make every journey unforgettable. Sri Lanka truly offers a complete travel experience in a short time.' />
-
-          <div className='content grid3 mtop'>
-            {location.map((item, index) => (
-              <div className='box' key={index}>
-                <img src={item.cover} alt='' />
-                <div className='overlay'>
-                  <h5>{item.name}</h5>
-                  <p>
-                    <label>{item.places}</label>
-                    <label>{item.places2}</label>
-                  </p>
-                </div>
-              </div>
-            ))}
+const Location = () => (
+  <section className="location padding">
+    <div className="container">
+      <Heading title="Điểm đến nổi bật tại Việt Nam" subtitle="Khám phá phố cổ, núi rừng và biển đảo qua những điểm đến được yêu thích trên khắp Việt Nam." />
+      <div className="content grid3 mtop">
+        {location.map((item) => (
+          <div className="box" key={item.id}>
+            <img src={item.cover} alt={item.name} loading="lazy" />
+            <div className="overlay">
+              <h5>{item.name}</h5>
+              <p><span>{item.places}</span> <span>{item.places2}</span></p>
+            </div>
           </div>
-        </div>
-      </section>
-    </>
-  )
-}
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
-export default Location
+export default Location;

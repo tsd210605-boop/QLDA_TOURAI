@@ -1,16 +1,17 @@
+import { translateError } from "../utils/locale";
 import { ENDPOINTS } from "./config";
 
 const BASE_URL = ENDPOINTS.bookings;
 
 export const getBookingsByUserId = async (userId) => {
   const res = await fetch(`${BASE_URL}/user/${userId}`);
-  if (!res.ok) throw new Error("Failed to load bookings");
+  if (!res.ok) throw new Error(translateError("Failed to load bookings"));
   return res.json();
 };
 
 export const getBookingsByPhone = async (phone) => {
   const res = await fetch(`${BASE_URL}/phone/${encodeURIComponent(phone)}`);
-  if (!res.ok) throw new Error("Failed to load bookings");
+  if (!res.ok) throw new Error(translateError("Failed to load bookings"));
   return res.json();
 };
 

@@ -29,25 +29,25 @@ const Bookings = () => {
   return (
     <div className="bookings-page">
       <aside className="bookings-menu">
-        <h3>Bookings</h3>
+        <h3>Đơn đặt tour</h3>
         <ul>
           <li
             className={active === "my" ? "active" : ""}
             onClick={() => handleMenuClick("my")}
           >
-            My Bookings
+            Đơn đặt tour của tôi
           </li>
           <li
             className={active === "package" ? "active" : ""}
             onClick={() => handleMenuClick("package")}
           >
-            Package Bookings
+            Đặt tour trọn gói
           </li>
           <li
             className={active === "custom" ? "active" : ""}
             onClick={() => handleMenuClick("custom")}
           >
-            Customize Bookings
+            Đặt tour theo yêu cầu
           </li>
         </ul>
       </aside>

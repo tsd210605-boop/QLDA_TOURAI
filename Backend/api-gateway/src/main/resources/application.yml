@@ -1,3 +1,5 @@
+# Định tuyến request theo đường dẫn đến từng dịch vụ, đồng thời cấu hình CORS và loại header CORS trùng.
+
 server:
   port: 8080
 

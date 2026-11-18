@@ -81,7 +81,7 @@ public class VnPayPaymentGateway implements PaymentGateway {
                     }
                 }
             }
-            String vnpSecureHash = hmacSHA512(vnpHashSecret, hashData.toString());
+            String vnpSecureHash = hmacSha512(vnpHashSecret, hashData.toString());
             query.append("&vnp_SecureHash=").append(vnpSecureHash);
             String paymentUrl = vnpPayUrl + "?" + query;
 
@@ -115,7 +115,7 @@ public class VnPayPaymentGateway implements PaymentGateway {
                 }
             }
 
-            String signValue = hmacSHA512(vnpHashSecret, hashData.toString());
+            String signValue = hmacSha512(vnpHashSecret, hashData.toString());
             boolean validSignature = signValue.equalsIgnoreCase(vnpSecureHash);
             String responseCode = params.get("vnp_ResponseCode");
             String txnRef = params.get("vnp_TxnRef");
@@ -132,7 +132,7 @@ public class VnPayPaymentGateway implements PaymentGateway {
         }
     }
 
-    public static String hmacSHA512(String key, String data) {
+    public static String hmacSha512(String key, String data) {
         try {
             Mac hmac512 = Mac.getInstance("HmacSHA512");
             SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA512");

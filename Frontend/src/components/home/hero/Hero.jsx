@@ -7,7 +7,7 @@ const Hero = () => {
     <>
       <section className='hero'>
         <div className='container'>
-          <Heading title='Let your travel dreams come true' subtitle='Find best packages and destinations that suits your needs' />
+          <Heading title='Khám phá vẻ đẹp Việt Nam' subtitle='Từ núi rừng Tây Bắc đến biển đảo phương Nam, tìm hành trình phù hợp với bạn.' />
         </div>
       </section>
     </>
