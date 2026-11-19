@@ -1,4 +1,4 @@
-# HỆ THỐNG TÀI LIỆU THIẾT KẾ CHI TIẾT DỰ ÁN TRAVELBOOK
+# HỆ THỐNG TÀI LIỆU THIẾT KẾ CHI TIẾT DỰ ÁN TOURISM
 **(SYSTEM DESIGN DOCUMENTATION - TRAVELBOOK TOURISM PLATFORM)**
 
 Hệ thống tài liệu thiết kế này được biên soạn đầy đủ, chi tiết và chuẩn hóa theo đúng yêu cầu học thuật & công nghệ của đồ án, đáp ứng yêu cầu phân tách độc lập các phần: **Backend**, **Frontend** và **Cơ sở dữ liệu (Database)**.
